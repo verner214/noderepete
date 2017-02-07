@@ -7,49 +7,72 @@
     <title></title>
 </head>
 <body>
-    <form id="delform" action="/delete" method="post" enctype="multipart/form-data">
-        <input id="formRowKey" type="text" name="rowkey" />
-        <input id="formPartitionKey" type="text" name="partitionkey" />
-    </form>
+    <div id="divJSON">
+        <ul id="ul_debug">
+        </ul>
+        <ul id="ulJSON"></ul>
+    </div>
 
-    <a href="new.html">ladda upp ny fil.</a><br />
-    <a href="list.html?hidehidden=true">only visible</a><br />
-    <a href="list.html">show all</a><br />
+    <script src="jquery-1.11.2.js"></script>
+    <script src="own.js"></script>
+
+    <label>area1</label><input id="area1" type="text" />
+    <label>area2</label><input id="area2" type="text" />
+    <input type="button" value="sök" onclick="getList();"/>
+    <input type="button" value="new" onclick="newQA();"/>
+
     <script src="jquery-1.11.2.js"></script>
     <script type="text/javascript">
-        //globala variabler, minimera till en
-        var myGlobalObject = {
-            JSONFromServer: {},
-            currentIndex: -1
-        };
-
-        function getParameterByName(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        $(document).ready(function () {
+            $("#ul_debug").append("<span>ready</span><br>");
+            var area1 = getParameterByName("area1");
+            document.getElementById('area1').value = area1; 
+            var area2 = getParameterByName("area2");
+            document.getElementById('area2').value = area2; 
+            
+            if (area1.length > 0) {
+                var filter = "$filter=area1%20eq%20'" + area1 + "'&";
+                if (area2.length > 0) {
+                    ; //kommpletera med area2 senare
+                }
+                fetchPhotoList(filter);
+            }
+        });
+        var newQA = function () {
+            var area1 = document.getElementById('area1').value;
+            var area2 = document.getElementById('area2').value;
+            if (area1.length > 0 && area2.length > 0) {
+                window.location = 'new.html?area1=' + area1 + '&area2=' + area2;
+            }
         }
-
+        var getList = function () {
+            var area1 = document.getElementById('area1').value;
+            var area2 = document.getElementById('area2').value;
+            var newUrl = 'list.html';
+            if (area1.length > 0) {
+                newUrl += '?area1=' + area1;
+                if (area2.length > 0) {
+                    newUrl += '&area2=' + area2; 
+                }
+            }
+            window.location = newUrl;
+        }
         var fetchPhotoList = function (filter) {
             $.support.cors = true;
             //signaturdelen (st=2015 fram till slutet) är skapat mha att gå till adressen /sas. koden finns i server.js.
             //jQuery.support.cors = true;
             $.ajax({//tableSAS:st=2015-03-29T18%3A35%3A25Z&se=2015-04-05T18%3A55%3A25Z&sp=r&sv=2014-02-14&tn=photos&sig=7t9DkALrw9QLsG4B%2BPUFodyDJHFCpvbwZsEfYoSuHpI%3D
                 url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblolapp?" + filter + 
-                "st=2015-07-03T09%3A30%3A27Z&se=2034-07-07T21%3A50%3A27Z&sp=r&sv=2014-02-14&tn=tblolapp&sig=vaJqvHQqnZ6iVyp8k6EucjVmF4tRkEPHTAy4q2IVkVM%3D",
+                "BYTUTst=2015-07-03T09%3A30%3A27Z&se=2034-07-07T21%3A50%3A27Z&sp=r&sv=2014-02-14&tn=tblolapp&sig=vaJqvHQqnZ6iVyp8k6EucjVmF4tRkEPHTAy4q2IVkVM%3D",
                 type: 'GET',
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span><br>");
-                    myGlobalObject.JSONFromServer = data;
                     data = data.value;
-                    //alert(JSON.stringify(data));
 
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].thumbURL) {
-                            var bgc = data[i].visible && data[i].visible === "true" ? "green" : "red";
-                            $("#ulJSON").append("<li style='background: " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + "&PartitionKey=" + data[i].PartitionKey + "'>" +
-                                "<img id='imgid" + i + "' src='" + data[i].thumbURL + "'/></a><span> " + data[i].beerName + "</span></li>");
-                        }
+                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
+                        var bgc = data[i].visible && data[i].visible === "true" ? "green" : "red";
+                        $("#ulJSON").append("<li style='background: " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + 
+                            "&PartitionKey=" + data[i].PartitionKey + "'></a><span> " + data[i].question + "</span></li>");
                     }
                 },
                 beforeSend: function (xhr) {
@@ -62,28 +85,6 @@
                 }
             });
         };
-/* kommenterar bort, verkar inte användas
-        var switchimg = function (index) {
-            var data = myGlobalObject.JSONFromServer.value;
-            var lawaimg = document.getElementById('targetIMG');
-            lawaimg.src = data[index].imgURL;
-            //och sätta alla andra värden, rowkey
-        }
-*/
-        $(document).ready(function () {
-            $("#ul_debug").append("<span>ready</span><br>");
-            if (getParameterByName("hidehidden")) {
-                fetchPhotoList("$filter=visible%20eq%20'true'&");
-            }
-            else {
-                fetchPhotoList("");
-            }
-        });
     </script>
-        <div id="divJSON" style="">
-			<ul id="ul_debug">
-			</ul>
-            <ul id="ulJSON"></ul>
-        </div>
 </body>
 </html>

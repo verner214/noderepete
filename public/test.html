@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="own.css" type="text/css">
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <!--form id="delform" action="/delete" method="post" enctype="multipart/form-data"-->
+        <input id="area1" type="text" />
+        <input id="area2" type="text" name="partitionkey" />
+        <input type="button" value="sök" onclick="alert('hej');"/>
+    <input type="button" value="new" onclick="newQA();"/>
+
+    <script type="text/javascript">
+        var newQA = function () {
+            var area1 = document.getElementById('area1').value;
+            var area2 = document.getElementById('area2').value;
+            if (area1.length > 0 && area2.length > 0) {
+                window.location = 'new.html?area1=' + area1 + '&area2=' + area2;
+            }
+        }
+    </script>
+</body>
+</html>

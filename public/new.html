@@ -7,13 +7,19 @@
 </head>
 ange: area1, area2, question, answer, comments.
 <body>
+    <script src="own.js"></script>
     <form action="/newedit" method="post" enctype="multipart/form-data">
-        <label>area1</label><input type="text" name="area1" />
-        <label>area2</label><input type="text" name="area2" /><br>
-        <label>question</label><textarea rows="20" cols="50" name="question" ></textarea>
-        <label>answer</label><textarea rows="20" cols="50" name="answer" ></textarea><br>
+        <label>area1</label><input type="text" name="area1" id="area1"/>
+        <label>area2</label><input type="text" name="area2" id="area2"/><br>
+        <label>question</label><textarea rows="30" cols="80" name="question" id="question"></textarea>
+        <label>answer</label><textarea rows="30" cols="80" name="answer" ></textarea><br>
         <input type="submit" value="save" /><br>
         <label>comments</label><textarea rows="5" cols="100" name="comments" ></textarea><br>
     </form>
+        <script type="text/javascript">
+            document.getElementById('area1').value = getParameterByName("area1");
+            document.getElementById('area2').value = getParameterByName("area2");
+            document.getElementById('question').focus();
+        </script>
 </body>
 </html>

@@ -7,83 +7,65 @@
     <title>edit</title>
 </head>
 <body>
+	<div>
+		<ul id="ul_debug">
+		</ul>
+    </div>
+    <div>
+    <form action="/newedit" method="post" enctype="multipart/form-data" id="myform">
+        <label>area1</label><input type="text" name="area1" id="area1"/>
+        <label>area2</label><input type="text" name="area2" id="area2"/><br>
+        <label>question</label><textarea rows="30" cols="80" name="question" id="question" form="myform" id="question" ></textarea>
+        <label>answer</label><textarea rows="30" cols="80" name="answer" form="myform" id="answer"></textarea><br>
+        <input type="submit" value="save" /><br>
+        showlevel<input id="showlevel" type="text" name="showlevel" value="0ldrg1vnlg2ft" /><br />
+        visible<input id="visible" type="checkbox" name="visible" /><br />
+        <label>comments</label><textarea rows="5" cols="100" name="comments" form="myform" wrap="soft"></textarea><br>
+            <input id="formRowKey" type="hidden" name="id" />
+            <input id="formPartitionKey" type="hidden" name="partitionkey" />
+    </form>
+     </div>
     <script src="jquery-1.11.2.js"></script>
+    <script src="own.js"></script>
     <script type="text/javascript">
-        function getParameterByName(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
-        
+        $(document).ready(function () {
+			$("#ul_debug").append("<span>ready</span><br>");
+            fetchPhoto();
+        });
         var fetchPhoto = function () {
             $.support.cors = true;
             var RowKey = getParameterByName("RowKey");//079d9bce-8542-42ee-bb55-644eeed26e78
-            document.getElementById('gallerynew_id').value = RowKey;            
-            document.getElementById('copy2demo_id').value = RowKey;                        
             var PartitionKey = getParameterByName("PartitionKey");//photos
-            //signaturdelen (st=2015 fram till slutet) är skapat mha att gå till adressen /sas. koden finns i server.js.
             $.ajax({
-                url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblolapp(PartitionKey='" + PartitionKey + "',RowKey='" + RowKey + "')?" +
-                    "st=2015-07-03T09%3A30%3A27Z&se=2034-07-07T21%3A50%3A27Z&sp=r&sv=2014-02-14&tn=tblolapp&sig=vaJqvHQqnZ6iVyp8k6EucjVmF4tRkEPHTAy4q2IVkVM%3D",
+                url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblrepete(PartitionKey='" + PartitionKey + "',RowKey='" + RowKey + "')?" +
+                    "BYTUTst=2015-07-03T09%3A30%3A27Z&se=2034-07-07T21%3A50%3A27Z&sp=r&sv=2014-02-14&tn=tblolapp&sig=vaJqvHQqnZ6iVyp8k6EucjVmF4tRkEPHTAy4q2IVkVM%3D",
                 type: 'GET',
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span><br>");
                     //alert(JSON.stringify(data));
                     document.getElementById('formRowKey').value = RowKey;
                     document.getElementById('formPartitionKey').value = PartitionKey;
-                    if (data.beerName) {
-                        document.getElementById('formBeerName').value = data.beerName;
+                    if (data.area1) {
+                        document.getElementById('area1').value = data.beerName;
                     }
-                    if (data.beerStyle) {
-                        document.getElementById('formBeerStyle').value = data.beerStyle;
+                    if (data.area2) {
+                        document.getElementById('area2').value = data.beerStyle;
                     }
-                    if (data.sortorder) {
-                        document.getElementById('formSortOrder').value = data.sortorder;
+                    if (data.question) {
+                        document.getElementById('question').value = data.sortorder;
                     }
-                    if (data.description) {
-                        document.getElementById('formDescription').value = data.description;
-                    }
-                    if (data.recipe) {
-                        document.getElementById('formRecipe').value = data.recipe;
+                    if (data.answer) {
+                        document.getElementById('answer').value = data.description;
                     }
                     if (data.comments) {
-                        document.getElementById('formComments').value = data.comments;
+                        document.getElementById('comments').value = data.recipe;
+                    }
+                    if (data.showlevel) {
+                        document.getElementById('showlevel').value = data.comments;
                     }
                     if (data.visible) {//testar om attributet finns, inte om det är falskt
-                        document.getElementById('formVisible').checked = (data.visible.localeCompare('false') === 0 ? false : true);
+                        document.getElementById('visible').checked = (data.visible.localeCompare('false') === 0 ? false : true);
                     }
-                    //visa mediumURL istället för imgURL i första hand
-                    if (data.mediumURL) {
-                        $("#ul_debug").append("<span>src:" + data.mediumURL + "</span><br>");
-                        document.getElementById('targetIMG').src = data.mediumURL;
-                    }
-                    else if (data.imgURL) {
-                        $("#ul_debug").append("<span>src:" + data.imgURL + "</span><br>");
-                        document.getElementById('targetIMG').src = data.imgURL;
-                    }
-
-//gallery                    
-                    if (data.gallery) {
-                        //alert('gallery finns!');
-                        var galleryArr = JSON.parse(data.gallery);
-                        //alert(data.gallery);
-                        for (var i = 0; i < galleryArr.length; i++) {
-                            var bgc = galleryArr[i].hide === "true" ? "red" : "green";
-                            var checked = galleryArr[i].hide === "true" ? "checked" : "";
-                            $("#ul_gallery").append(
-                                "<li style='background: " + bgc + " '>"+
-                                    "<img id='imgid" + i + "' src='" + galleryArr[i].imgURL + "'/><br />"+
-                                    "<form action='/galleryedit' method='post' enctype='multipart/form-data'>"+
-                                        "<textarea name='text' rows='20' cols='70' wrap='soft'>" + galleryArr[i].text + "</textarea><br />"+
-                                        "<input type='checkbox' name='hide' rows='20' cols='70' wrap='soft' " + checked + "><br />"+
-                                        "<input type='hidden' name='id' value='" + RowKey + "'>"+
-                                        "<input type='hidden' name='imgURL' value='" + galleryArr[i].imgURL + "'>" +
-                                        "<input type='submit'/>"+
-                                    "</form>"+
-                                "</li>");
-                        }
-                    }                    
                 },
                 beforeSend: function (xhr) {
 					$("#ul_debug").append("<span>beforeSend</span><br>");
@@ -95,44 +77,6 @@
                 }
             });
         };
-        $(document).ready(function () {
-			$("#ul_debug").append("<span>ready</span><br>");
-            fetchPhoto();
-        });
     </script>
-	<div>
-		<ul id="ul_debug">
-		</ul>
-    </div>
-    <div>
-        <img id="targetIMG" style="max-width: 512px;"/>
-        <form action="/newedit" method="post" enctype="multipart/form-data" id="myform">
-            beerName<input id="formBeerName" type="text" name="beerName" value="namn på ölen" /><br />
-            beerStyle<input id="formBeerStyle" type="text" name="beerStyle" value="öltyp" /><br />
-            sortorder<input id="formSortOrder" type="text" name="sortorder" value="name=sortorder" /><br />
-            visible<input id="formVisible" type="checkbox" name="visible" /><br />
-            <input id="formRowKey" type="hidden" name="id" />
-            <input id="formPartitionKey" type="hidden" name="partitionkey" />
-            <input type="submit" value="Edit" />
-            description<br /><textarea form="myform" name="description" id="formDescription" rows="5" cols="70" wrap="soft"></textarea><br />
-            recipe<br /><textarea form="myform" name="recipe" id="formRecipe" rows="20" cols="70" wrap="soft"></textarea><br />
-            comments<br /><textarea form="myform" name="comments" id="formComments" rows="20" cols="70" wrap="soft"></textarea><br />
-        </form>
-</div>
-<div>
-    <ul id="ul_gallery">
-    </ul>
-    <form action="/gallerynew" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" id="gallerynew_id">
-        <textarea name="text" rows='20' cols='70' wrap='soft'></textarea><br />
-        <label>thumb</label><input type="file" name="thumb" /><br>
-        <label>img</label><input type="file" name="img" /><br>
-        <input type="submit" value="newGalleryItem" /><br>
-    </form>
-    <form action="/copy2demo" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" id="copy2demo_id">
-        <input type="submit" value="copy2demo" /><br>
-    </form>
-</div>
 </body>
 </html>
