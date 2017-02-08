@@ -115,7 +115,7 @@ app.post('/newedit', function (req, res, next) {
                 PartitionKey: entGen.String(partitionKey),//obligatorisk
                 RowKey: entGen.String(rowId),//obligatorisk
                 area1: entGen.String(fields.area1),
-                area1: entGen.String(fields.area2),
+                area2: entGen.String(fields.area2),
                 question: entGen.String(fields.question),
                 answer: entGen.String(fields.answer),
                 comments: entGen.String(fields.comments),
