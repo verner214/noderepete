@@ -41,53 +41,53 @@ var uploadDir = "upload";
 app.use(express.static(path.join(__dirname, 'public')));
 console.log("public=" + path.join(__dirname, 'public'));
 
-//sparar images om det finns
-var saveImages = function(files, callback) {
-    if (files.img === null || files.img === undefined) {
-        return callback(null, null);
-    }
-//initiera blobanv�ndning
-    var blobService = azure.createBlobService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
+//sparar images om det finns, params = fields.id, questionimg / answerimg, files.image
+//image skickas alltid från app och mergeas alltid.
+app.post('/image', function(req, res, next) {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = uploadDir;       //set upload directory, Formidable uploads to operating systems tmp dir by default
+    form.keepExtensions = true;     //keep file extension
+
+    form.parse(req, function(err, fields, files) {
+        var blobService = azure.createBlobService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
+        var filePath = files.image.path;
 
 //sparar en BLOB som ligger p� disk. callback(err, url) meddelas urlen som bloben fick.
-    var saveBLOB = function (filePath, callback) {
         blobService.createBlockBlobFromLocalFile(AZURE_CONTAINER, filePath, filePath, function (err, result) {
-            if (err) return callback(err);
+            if (err) throw err;
+            fs.unlink(filePath, function (err) {
+                if (err) throw err;
+                console.log('fil RADERAD efter sparad till BLOB, fil=' + filePath);
+            });
             console.log('fil SPARAD till BLOB, fil=' + filePath);
             var imgUrl = blobService.getUrl(AZURE_CONTAINER, filePath, null, hostName);
-            callback(null, { url: imgUrl, name: filePath });
-        });
-    }
 
-//raderar uppladdad fil så att den inte ligger där och skräpar
-    var deleteFile = function(filepath) {
-        fs.unlink(filepath, function (err) {
-            if (err) throw err;
-            console.log('fil RADERAD efter sparad till BLOB, fil=' + filepath);
-        });
-    }         
+            var tableSvc = azure.createTableService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
+            tableSvc.createTableIfNotExists(AZURE_TABLE, function (err, result, response) {
+                if (err) throw err;
+                var entGen = azure.TableUtilities.entityGenerator;
+                var task = {
+                    PartitionKey: entGen.String(partitionKey),//obligatorisk
+                    RowKey: entGen.String(fields.id),//obligatorisk
+                };
+//spara antingen question eller answer image
+                if (fields.questionimg === null || fields.questionimg === undefined || fields.questionimg === "") {
+                    task.answerimg = entGen.String(imgUrl); 
+                }
+                else if (fields.answerimg === null || fields.answerimg === undefined || fields.answerimg === "") {
+                    task.questionimg = entGen.String(imgUrl); 
+                }
 
-//skapa 2 blobar parallellt, sen spara tabell med l�nkar till dessa 2 blobar.
-    async.parallel([
-        function(callback) {
-            saveBLOB(files.img.path, function(err, result) {
-                deleteFile(files.img.path);
-                callback(err, result);
-            });
-        },
-        function(callback) {
-            saveBLOB(files.thumb.path, function(err, result) {
-                deleteFile(files.thumb.path);
-                callback(err, result);
-            });
-        }
-    ], function (err, results) {
-        if (err) throw err;
-        //save table
-        console.log('blobar sparade.');
-        callback({url : results[0].url, name : results[0].name}, {url : results[1].url, name : results[1].name});
-    });//parallell
-}//saveImages
+                tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
+                    if (err) throw err;
+                    console.log("update");
+                    res.send('OK');
+                });
+            });//tableSvc.createTableIfNotExists
+        });//blobService
+    });//form.parse;
+});//post /images
+
 
 //gör både new och edit
 app.post('/newedit', function (req, res, next) {
@@ -107,53 +107,40 @@ app.post('/newedit', function (req, res, next) {
         var rowId = bNew ? String(uuid()) : fields.id;
 
 //nytt: spara ev. bilder till blob, hantera skapade urler
-        saveImages(files, function(img, thumb) {
-            var tableSvc = azure.createTableService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
-            tableSvc.createTableIfNotExists(AZURE_TABLE, function (err, result, response) {
-                if (err) throw err;
-                var entGen = azure.TableUtilities.entityGenerator;
-                var task = {
-                    PartitionKey: entGen.String(partitionKey),//obligatorisk
-                    RowKey: entGen.String(rowId),//obligatorisk
-                    beerName: entGen.String(fields.beerName),
-                    beerStyle: entGen.String(fields.beerStyle),
-                    og: entGen.String(fields.og),
-                    fg: entGen.String(fields.fg),
-                    description: entGen.String(fields.description),
-                    recipe: entGen.String(fields.recipe),
-                    comments: entGen.String(fields.comments),
-                    brewingDate: entGen.String(fields.brewingDate),
-                    people: entGen.String(fields.people),
-                    place: entGen.String(fields.place),
-                    hide: entGen.String(fields.hide),
-                    visible: entGen.String('true')//används?
-                };
-                if (img !== null) {
-                    task.imgURL = entGen.String(img.url);
-                    task.imgName = entGen.String(img.name);
-                    task.thumbURL = entGen.String(thumb.url);
-                    task.thumbName = entGen.String(thumb.name);
-                }
-                if (bNew) {
-                    tableSvc.insertEntity(AZURE_TABLE, task, function (err, result, response) {
-                        if (err) throw err;
-                        console.log("insert");
-                        //var fullUrl = req.protocol + '://' + req.get('host');
-                        //res.redirect(fullUrl + "/list.html");
-                        res.send('OK');
-                    });
-                } else {
-                    tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
-                        if (err) throw err;
-                        console.log("update");
-                        //efter post, visa list.html        
-                        //var fullUrl = req.protocol + '://' + req.get('host');
-                        //res.redirect(fullUrl + "/list.html");//obs! NYTT,detta är vi inte intresserade av när appen anropar
-                        res.send('OK');
-                    });
-                }//else
-            });//tableSvc.createTableIfNotExists
-        });//saveImages
+        var tableSvc = azure.createTableService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
+        tableSvc.createTableIfNotExists(AZURE_TABLE, function (err, result, response) {
+            if (err) throw err;
+            var entGen = azure.TableUtilities.entityGenerator;
+            var task = {
+                PartitionKey: entGen.String(partitionKey),//obligatorisk
+                RowKey: entGen.String(rowId),//obligatorisk
+                area1: entGen.String(fields.area1),
+                area1: entGen.String(fields.area2),
+                question: entGen.String(fields.question),
+                answer: entGen.String(fields.answer),
+                comments: entGen.String(fields.comments),
+                showlevel: entGen.String(fields.showlevel),
+                hide: entGen.String(fields.hide)//chkbox har value 'on' om checkad, annars skickades den inte.
+            };
+            if (bNew) {
+                tableSvc.insertEntity(AZURE_TABLE, task, function (err, result, response) {
+                    if (err) throw err;
+                    console.log("insert");
+                    //var fullUrl = req.protocol + '://' + req.get('host');
+                    //res.redirect(fullUrl + "/list.html");
+                    res.send('OK');
+                });
+            } else {
+                tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
+                    if (err) throw err;
+                    console.log("update");
+                    //efter post, visa list.html        
+                    //var fullUrl = req.protocol + '://' + req.get('host');
+                    //res.redirect(fullUrl + "/list.html");//obs! NYTT,detta är vi inte intresserade av när appen anropar
+                    res.send('OK');
+                });
+            }//else
+        });//tableSvc.createTableIfNotExists
     });//form.parse
 });//app.post('/newedit'
 
