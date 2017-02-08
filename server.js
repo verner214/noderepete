@@ -126,9 +126,9 @@ app.post('/newedit', function (req, res, next) {
                 tableSvc.insertEntity(AZURE_TABLE, task, function (err, result, response) {
                     if (err) throw err;
                     console.log("insert");
-                    //var fullUrl = req.protocol + '://' + req.get('host');
-                    //res.redirect(fullUrl + "/list.html");
-                    res.send('OK');
+                    var fullUrl = req.protocol + '://' + req.get('host');
+                    res.redirect(fullUrl + "/new.html?area1=" + fields.area1 + "&area2=" + fields.area2);
+                    //res.send('OK');
                 });
             } else {
                 tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
