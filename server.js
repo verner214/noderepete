@@ -134,10 +134,14 @@ app.post('/newedit', function (req, res, next) {
                 tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
                     if (err) throw err;
                     console.log("update");
-                    //efter post, visa list.html        
-                    //var fullUrl = req.protocol + '://' + req.get('host');
-                    //res.redirect(fullUrl + "/list.html");//obs! NYTT,detta är vi inte intresserade av när appen anropar
-                    res.send('OK');
+                    //efter post, visa list.html   
+                    if (fields.area1) {//appen skickar inte area1
+                        var fullUrl = req.protocol + '://' + req.get('host');
+                        res.redirect(fullUrl + "/list.html?area1=" + fields.area1 + "&area2=" + fields.area2);
+                    }
+                    else {
+                        res.send('OK');
+                    }
                 });
             }//else
         });//tableSvc.createTableIfNotExists
