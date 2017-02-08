@@ -71,9 +71,10 @@
                     data = data.value;
 
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
-                        var bgc = data[i].visible && data[i].visible === "true" ? "green" : "red";
+                        var bgc = data[i].hide && data[i].hide === "on" ? "red" : "yellow";
                         $("#ulJSON").append("<li style='background: " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + 
-                            "&PartitionKey=" + data[i].PartitionKey + "'></a><span> " + data[i].question + "</span></li>");
+                            "&PartitionKey=" + data[i].PartitionKey + "'>"+ data[i].question + "</a><span style='font-weight: bold;'> " + 
+                            data[i].answer + "</span></li>");
                     }
                 },
                 beforeSend: function (xhr) {
