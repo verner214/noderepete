@@ -46,25 +46,25 @@
                     document.getElementById('formRowKey').value = RowKey;
                     document.getElementById('formPartitionKey').value = PartitionKey;
                     if (data.area1) {
-                        document.getElementById('area1').value = data.beerName;
+                        document.getElementById('area1').value = data.area1;
                     }
                     if (data.area2) {
-                        document.getElementById('area2').value = data.beerStyle;
+                        document.getElementById('area2').value = data.area2;
                     }
                     if (data.question) {
-                        document.getElementById('question').value = data.sortorder;
+                        document.getElementById('question').value = data.question;
                     }
                     if (data.answer) {
-                        document.getElementById('answer').value = data.description;
+                        document.getElementById('answer').value = data.answer;
                     }
                     if (data.comments) {
-                        document.getElementById('comments').value = data.recipe;
+                        document.getElementById('comments').value = data.comments;
                     }
                     if (data.showlevel) {
-                        document.getElementById('showlevel').value = data.comments;
+                        document.getElementById('showlevel').value = data.showlevel;
                     }
-                    if (data.visible) {//testar om attributet finns, inte om det är falskt
-                        document.getElementById('visible').checked = (data.visible.localeCompare('false') === 0 ? false : true);
+                    if (data.hide) {//testar om attributet finns, inte om det är falskt
+                        document.getElementById('hide').checked = data.hide;
                     }
                 },
                 beforeSend: function (xhr) {
