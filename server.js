@@ -120,7 +120,7 @@ app.post('/newedit', function (req, res, next) {
                 answer: entGen.String(fields.answer),
                 comments: entGen.String(fields.comments),
                 showlevel: entGen.String(fields.showlevel),
-                hide: entGen.String(fields.hide)//chkbox har value 'on' om checkad, annars skickades den inte.
+                hide: entGen.String((fields.hide === null || fields.hide === undefined) ? "" : "on")
             };
             if (bNew) {
                 tableSvc.insertEntity(AZURE_TABLE, task, function (err, result, response) {

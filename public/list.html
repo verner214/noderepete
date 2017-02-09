@@ -10,20 +10,21 @@
     .hidden {background-color: powderblue;}
     .answer {font-weight: bold;}
     h1   {color: blue;}
-    .coments  {color: red;}
+    .comments  {color: red;}
+    .index {font-size: 1.5em}
 </style>
 
 </head>
 <body>
     <h1><a href="index.html">index.html</a></h1>
+    <ul id="ul_debug">
+    </ul>
     <label>area1</label><input id="area1" type="text" />
     <label>area2</label><input id="area2" type="text" />
     <input type="button" value="sök" onclick="getList();"/>
     <input type="button" value="new" onclick="newQA();"/>
 
     <div id="divJSON">
-        <ul id="ul_debug">
-        </ul>
         <ul id="ulJSON"></ul>
     </div>
 
@@ -31,7 +32,7 @@
     <script src="own.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#ul_debug").append("<span>ready</span><br>");
+            $("#ul_debug").append("<span>ready </span>");
             var area1 = getParameterByName("area1");
             document.getElementById('area1').value = area1; 
             var area2 = getParameterByName("area2");
@@ -75,18 +76,19 @@
                 "st=2017-02-08T20%3A34%3A21Z&se=2036-02-14T08%3A54%3A21Z&sp=r&sv=2014-02-14&tn=tblrepete&sig=HMFUBRLCbQbegxPB3X%2FC5O2%2FbbKe2P%2Fp9GNShPvIRvw%3D",
                 type: 'GET',
                 success: function (data) {
-					$("#ul_debug").append("<span>success</span><br>");
+					$("#ul_debug").append("<span>success</span>");
                     data = data.value;
 
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
-                        $("#ulJSON").append("<li class='question " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + 
+                        $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
+                            "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
                             "&PartitionKey=" + data[i].PartitionKey + "'>"+ data[i].question + "</a><span class='answer'> " + 
                             data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span></li>");
                     }
                 },
                 beforeSend: function (xhr) {
-					$("#ul_debug").append("<span>beforeSend</span><br>");
+					$("#ul_debug").append("<span>beforeSend </span>");
                     xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
                 },
                 error: function (rcvData) {
