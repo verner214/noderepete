@@ -5,8 +5,22 @@
     <link rel="stylesheet" href="own.css" type="text/css">
     <meta charset="utf-8" />
     <title></title>
+
+<style>
+    .hidden {background-color: powderblue;}
+    .answer {font-weight: bold;}
+    h1   {color: blue;}
+    .coments  {color: red;}
+</style>
+
 </head>
 <body>
+    <h1><a href="index.html">index.html</a></h1>
+    <label>area1</label><input id="area1" type="text" />
+    <label>area2</label><input id="area2" type="text" />
+    <input type="button" value="sök" onclick="getList();"/>
+    <input type="button" value="new" onclick="newQA();"/>
+
     <div id="divJSON">
         <ul id="ul_debug">
         </ul>
@@ -15,13 +29,6 @@
 
     <script src="jquery-1.11.2.js"></script>
     <script src="own.js"></script>
-
-    <label>area1</label><input id="area1" type="text" />
-    <label>area2</label><input id="area2" type="text" />
-    <input type="button" value="sök" onclick="getList();"/>
-    <input type="button" value="new" onclick="newQA();"/>
-
-    <script src="jquery-1.11.2.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#ul_debug").append("<span>ready</span><br>");
@@ -32,10 +39,11 @@
             
             var filter = "";
             if (area1.length > 0) {
-                filter = "$filter=area1%20eq%20'" + area1 + "'&";
+                filter = "$filter=area1%20eq%20'" + area1 + "'";
                 if (area2.length > 0) {
-                    ; //kommpletera med area2 senare
+                    filter += "%20and%20area2%20eq%20'" + area2 + "'";
                 }
+                filter += "&";
                 fetchPhotoList(filter);
             }
         });
@@ -71,10 +79,10 @@
                     data = data.value;
 
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
-                        var bgc = data[i].hide && data[i].hide === "on" ? "red" : "yellow";
-                        $("#ulJSON").append("<li style='background: " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + 
-                            "&PartitionKey=" + data[i].PartitionKey + "'>"+ data[i].question + "</a><span style='font-weight: bold;'> " + 
-                            data[i].answer + "</span></li>");
+                        var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
+                        $("#ulJSON").append("<li class='question " + bgc + " '><a href='edit.html?RowKey=" + data[i].RowKey + 
+                            "&PartitionKey=" + data[i].PartitionKey + "'>"+ data[i].question + "</a><span class='answer'> " + 
+                            data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span></li>");
                     }
                 },
                 beforeSend: function (xhr) {
