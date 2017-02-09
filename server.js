@@ -59,10 +59,6 @@ app.post('/image', function(req, res, next) {
         blobService.createBlockBlobFromLocalFile(AZURE_CONTAINER, filePath, filePath, function (err, result) {
             console.log("blobService.createBlockBlobFromLocalFile");
             if (err) throw err;
-            fs.unlink(filePath, function (err) {
-                if (err) throw err;
-                console.log('fil RADERAD efter sparad till BLOB, fil=' + filePath);
-            });
             console.log('fil SPARAD till BLOB, fil=' + filePath);
             var imgUrl = blobService.getUrl(AZURE_CONTAINER, filePath, null, hostName);
 
@@ -86,6 +82,10 @@ app.post('/image', function(req, res, next) {
                     if (err) throw err;
                     console.log("mergeEntity");
                     res.send('OK');
+                });
+                fs.unlink(filePath, function (err) {
+                    if (err) throw err;
+                    console.log('fil RADERAD efter sparad till BLOB, fil=' + filePath);
                 });
             });//tableSvc.createTableIfNotExists
         });//blobService
