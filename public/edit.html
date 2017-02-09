@@ -8,6 +8,8 @@
 </head>
 <body>
     <h1><a href="index.html">index.html</a></h1>
+    <input type="button" value="imgupload" onclick="imgupload();"/>
+
 	<div>
 		<ul id="ul_debug">
 		</ul>
@@ -30,9 +32,12 @@
     <script src="own.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-			$("#ul_debug").append("<span>ready</span><br>");
+			$("#ul_debug").append("<span>ready </span>");
             fetchPhoto();
         });
+        var imgupload = function () {
+            window.location = 'imgupload.html?RowKey=' + getParameterByName("RowKey");
+        }
         var fetchPhoto = function () {
             $.support.cors = true;
             var RowKey = getParameterByName("RowKey");//079d9bce-8542-42ee-bb55-644eeed26e78
@@ -42,7 +47,7 @@
                     "st=2017-02-08T20%3A34%3A21Z&se=2036-02-14T08%3A54%3A21Z&sp=r&sv=2014-02-14&tn=tblrepete&sig=HMFUBRLCbQbegxPB3X%2FC5O2%2FbbKe2P%2Fp9GNShPvIRvw%3D",
                 type: 'GET',
                 success: function (data) {
-					$("#ul_debug").append("<span>success</span><br>");
+					$("#ul_debug").append("<span>success</span>");
                     //alert(JSON.stringify(data));
                     document.getElementById('formRowKey').value = RowKey;
                     document.getElementById('formPartitionKey').value = PartitionKey;
@@ -69,7 +74,7 @@
                     }
                 },
                 beforeSend: function (xhr) {
-					$("#ul_debug").append("<span>beforeSend</span><br>");
+					$("#ul_debug").append("<span>beforeSend</span>");
                     xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
                 },
                 error: function (rcvData) {

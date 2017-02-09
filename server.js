@@ -41,7 +41,7 @@ var uploadDir = "upload";
 app.use(express.static(path.join(__dirname, 'public')));
 console.log("public=" + path.join(__dirname, 'public'));
 
-//sparar images om det finns, params = fields.id, questionimg / answerimg, files.image
+//sparar images om det finns, params = fields.id, imgtype, files.image
 //image skickas alltid från app och mergeas alltid.
 app.post('/image', function(req, res, next) {
     var form = new formidable.IncomingForm();
@@ -71,11 +71,11 @@ app.post('/image', function(req, res, next) {
                     RowKey: entGen.String(fields.id),//obligatorisk
                 };
 //spara antingen question eller answer image
-                if (fields.questionimg === null || fields.questionimg === undefined || fields.questionimg === "") {
-                    task.answerimg = entGen.String(imgUrl); 
-                }
-                else if (fields.answerimg === null || fields.answerimg === undefined || fields.answerimg === "") {
+                if (fields.imgtype === "question") {
                     task.questionimg = entGen.String(imgUrl); 
+                }
+                else if (fields.imgtype === "answer") {
+                    task.answerimg = entGen.String(imgUrl); 
                 }
 
                 tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
