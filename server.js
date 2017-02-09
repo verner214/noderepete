@@ -45,15 +45,19 @@ console.log("public=" + path.join(__dirname, 'public'));
 //image skickas alltid från app och mergeas alltid.
 app.post('/image', function(req, res, next) {
     var form = new formidable.IncomingForm();
+    console.log("post image, enter");
     form.uploadDir = uploadDir;       //set upload directory, Formidable uploads to operating systems tmp dir by default
     form.keepExtensions = true;     //keep file extension
 
     form.parse(req, function(err, fields, files) {
+        console.log("form.parse");
         var blobService = azure.createBlobService(AZURE_STORAGE_ACCOUNT, AZURE_STORAGE_ACCESS_KEY);
         var filePath = files.image.path;
+        console.log("filePath = " + filePath);
 
 //sparar en BLOB som ligger p� disk. callback(err, url) meddelas urlen som bloben fick.
         blobService.createBlockBlobFromLocalFile(AZURE_CONTAINER, filePath, filePath, function (err, result) {
+            console.log("blobService.createBlockBlobFromLocalFile");
             if (err) throw err;
             fs.unlink(filePath, function (err) {
                 if (err) throw err;
@@ -80,7 +84,7 @@ app.post('/image', function(req, res, next) {
 
                 tableSvc.mergeEntity(AZURE_TABLE, task, function (err, result, response) {
                     if (err) throw err;
-                    console.log("update");
+                    console.log("mergeEntity");
                     res.send('OK');
                 });
             });//tableSvc.createTableIfNotExists
