@@ -45,9 +45,11 @@ console.log("public=" + path.join(__dirname, 'public'));
 //image skickas alltid från app och mergeas alltid.
 app.post('/image', function(req, res, next) {
     var form = new formidable.IncomingForm();
-    console.log("post image, enter");
+    console.log("post image, enter1");
     form.uploadDir = uploadDir;       //set upload directory, Formidable uploads to operating systems tmp dir by default
+    console.log("post image, enter2");
     form.keepExtensions = true;     //keep file extension
+    console.log("post image, enter3");
 
     form.parse(req, function(err, fields, files) {
         console.log("form.parse");
