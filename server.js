@@ -35,7 +35,8 @@ app.use(bodyParser.urlencoded({
 }));
 //app.use(bodyParser({ defer: true }));
 
-var uploadDir = "upload";
+var uploadDir = "upload";//OBS! DENNA MAPP MÅSTE SKAPAS ANNARS FÅR MAN FEL!!!!!!!!!!!!!!!!!!!!!!!
+//felet är 500 någonting. skapar mappen gör man genom att i azureportalen använda console och helt enkelt skapa mappen D:\home\site\wwwroot\upload
 
 //statiska html-filer ligger i public/
 app.use(express.static(path.join(__dirname, 'public')));
