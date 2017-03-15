@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1><a href="index.html">index.html</a></h1>
+        <input type="button" value="new" onclick="newQA();"/>
 ange: area1, area2, question, answer, comments.
     <script src="own.js"></script>
     <form action="/newedit" method="post" enctype="multipart/form-data">
@@ -21,6 +22,13 @@ ange: area1, area2, question, answer, comments.
             document.getElementById('area1').value = getParameterByName("area1");
             document.getElementById('area2').value = getParameterByName("area2");
             document.getElementById('question').focus();
+            var newQA = function () {
+                var area1 = document.getElementById('area1').value;
+                var area2 = document.getElementById('area2').value;
+                if (area1.length > 0 && area2.length > 0) {
+                    window.location = 'list.html?area1=' + area1 + '&area2=' + area2;
+                }
+            }            
         </script>
 </body>
 </html>
