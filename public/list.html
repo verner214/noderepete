@@ -83,7 +83,7 @@
                         var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
                         $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
                             "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
-                            "&PartitionKey=" + data[i].PartitionKey + "'>"+ data[i].question + "</a><span class='answer'> " + 
+                            "&PartitionKey=" + data[i].PartitionKey + "'>."+ data[i].question + "</a><span class='answer'> " + 
                             data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span>" + 
                             (data[i].questionimg ? ("</br><img src='" + data[i].questionimg + "'/>") : "") +
                             (data[i].answerimg ? ("</br><img src='" + data[i].answerimg + "'/>") : "") +
