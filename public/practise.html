@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <a href="index.html">index.html </a><ul id="ul_debug"></ul>
+    <a href="index.html">index.html </a><label id="lbl_cnt" /><ul id="ul_debug"></ul>
     
     <label>area1</label><input id="area1" type="text" />
     <label>area2</label><input id="area2" type="text" />
@@ -36,13 +36,14 @@
         var global_current = 0;//jämn är fråga
         var next = function () {
             global_current++;
+            document.getElementById("lbl_cnt").innerText("" + global_current);
             if (global_current >= global_data.length * 2) {
                 global_current = 0;
             }
             showQA();
         }
         var showQA = function () {
-            document.getElementById("dicQA").innerText(global_data[global_current].question);
+            document.getElementById("divQA").innerText(global_data[global_current].question);
             /*
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
@@ -78,6 +79,7 @@
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span>");
                     global_data = data.value;
+                    global_current = 0;
                 },
                 beforeSend: function (xhr) {
 					$("#ul_debug").append("<span>beforeSend </span>");
