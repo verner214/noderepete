@@ -16,20 +16,46 @@
 
 </head>
 <body>
-    <h1><a href="index.html">index.html</a></h1>
-    <ul id="ul_debug"></ul>
+    <a href="index.html">index.html </a><ul id="ul_debug"></ul>
     
-    <div id="divJSON">
-        <ul id="ulJSON"></ul>
-    </div>
-
     <label>area1</label><input id="area1" type="text" />
     <label>area2</label><input id="area2" type="text" />
-    <input type="button" value="börja" onclick="getList();"/>
+    <input type="button" value="börja (om)" onclick="getList();"/>
+    <input type="button" value="nästa" onclick="next();"/>
+
+    <div id="divQA">
+    </div>
+    <div id="divComments">
+    </div>
+
 
     <script src="jquery-1.11.2.js"></script>
     <script src="own.js"></script>
     <script type="text/javascript">
+        var global_data = [];
+        var global_current = 0;//jämn är fråga
+        var next = function () {
+            global_current++;
+            if (global_current >= global_data.length * 2) {
+                global_current = 0;
+            }
+            showQA();
+        }
+        var showQA = function () {
+            document.getElementById("dicQA").innerText(global_data[global_current].question);
+            /*
+                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
+                        var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
+                        $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
+                            "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
+                            "&PartitionKey=" + data[i].PartitionKey + "'>."+ data[i].question + "</a><span class='answer'> " + 
+                            data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span>" + 
+                            (data[i].questionimg ? ("</br><img src='" + data[i].questionimg + "'/>") : "") +
+                            (data[i].answerimg ? ("</br><img src='" + data[i].answerimg + "'/>") : "") +
+                            "</li>");
+                    }
+                    */
+        }
         var getList = function () {
             var area1 = document.getElementById('area1').value;
             var area2 = document.getElementById('area2').value;
@@ -51,18 +77,7 @@
                 type: 'GET',
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span>");
-                    data = data.value;
-
-                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
-                        var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
-                        $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
-                            "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
-                            "&PartitionKey=" + data[i].PartitionKey + "'>."+ data[i].question + "</a><span class='answer'> " + 
-                            data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span>" + 
-                            (data[i].questionimg ? ("</br><img src='" + data[i].questionimg + "'/>") : "") +
-                            (data[i].answerimg ? ("</br><img src='" + data[i].answerimg + "'/>") : "") +
-                            "</li>");
-                    }
+                    global_data = data.value;
                 },
                 beforeSend: function (xhr) {
 					$("#ul_debug").append("<span>beforeSend </span>");
