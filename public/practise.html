@@ -16,6 +16,7 @@
 
 </head>
 <body>
+<div style="width: 100%">
     <a href="index.html">index.html </a><span id="lbl_cnt">initial</span><span id="lbl_max"> max</span>
     <ul id="ul_debug"></ul>
     
@@ -23,7 +24,7 @@
     <label>area2</label><input id="area2" type="text" />
     <input type="button" value="börja (om)" onclick="getList();"/>
     <input type="button" value="nästa" onclick="next();"/>
-
+</div>
     <p id="divQ" style="white-space: pre-wrap; float: left;">q</p>
     <p id="divA" style="white-space: pre-wrap">a</p>
 
@@ -34,22 +35,29 @@
     <script src="own.js"></script>
     <script type="text/javascript">
         var global_data = [];
-        var global_current = 0;//jämn är fråga
+        var global_current = -1;
+        var global_q = false;
         var next = function () {
-            global_current++;
-            $("#lbl_cnt").text("" + (global_current / 2));
-            //document.getElementById("lbl_cnt").innerText("" + global_current);
-            if (global_current >= global_data.length * 2) {
-                global_current = 0;
+            if (global_q === false) {
+                global_q = true;
+                global_current++;
+                if (global_current >= global_data.length) {
+                    global_current = 0;
+                }
             }
+            else {
+                global_q = false;
+            }
+            $("#lbl_cnt").text("" + global_current);
+            //document.getElementById("lbl_cnt").innerText("" + global_current);
             showQA();
         }
         var showQA = function () {
-            if (global_current % 2 == 0) {
-                $("#divQ").text(global_data[global_current / 2].question);
+            if (global_q === true) {
+                $("#divQ").text(global_data[global_current].question);
                 $("#divA").text("");                
             } else {
-                $("#divA").text(global_data[global_current / 2].answer);                
+                $("#divA").text(global_data[global_current].answer);                
             }
             //document.getElementById("divQA").innerText(global_data[global_current].question);
             /*
