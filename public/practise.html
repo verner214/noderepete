@@ -95,7 +95,8 @@
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span>");
                     global_data = data.value;
-                    global_current = 0;
+                    global_current = -1;
+                    global_q = false;
                     $("#lbl_max").text(" / " + global_data.length);
                 },
                 beforeSend: function (xhr) {
