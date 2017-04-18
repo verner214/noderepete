@@ -37,14 +37,16 @@
         var global_current = 0;//jämn är fråga
         var next = function () {
             global_current++;
-            document.getElementById("lbl_cnt").innerText("" + global_current);
+            $("#lbl_cnt").text("" + global_current);
+            //document.getElementById("lbl_cnt").innerText("" + global_current);
             if (global_current >= global_data.length * 2) {
                 global_current = 0;
             }
             showQA();
         }
         var showQA = function () {
-            document.getElementById("divQA").innerText(global_data[global_current].question);
+            $("#divQA").text(global_data[global_current].question);
+            //document.getElementById("divQA").innerText(global_data[global_current].question);
             /*
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
