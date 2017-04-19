@@ -71,19 +71,6 @@
             } else {
                 $("#divA").text(global_data[global_current].answer);                
             }
-            //document.getElementById("divQA").innerText(global_data[global_current].question);
-            /*
-                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
-                        var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
-                        $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
-                            "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
-                            "&PartitionKey=" + data[i].PartitionKey + "'>."+ data[i].question + "</a><span class='answer'> " + 
-                            data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span>" + 
-                            (data[i].questionimg ? ("</br><img src='" + data[i].questionimg + "'/>") : "") +
-                            (data[i].answerimg ? ("</br><img src='" + data[i].answerimg + "'/>") : "") +
-                            "</li>");
-                    }
-                    */
         }
         var getList = function () {
             var area1 = document.getElementById('area1').value;
@@ -112,7 +99,7 @@
                     $("#lbl_max").text(" / " + global_data.length);
                 },
                 beforeSend: function (xhr) {
-					$("#ul_debug").append("<span>beforeSend </span>");
+					$("#ul_debug").html("<span>beforeSend </span>");
                     xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
                 },
                 error: function (rcvData) {
