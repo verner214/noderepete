@@ -51,11 +51,15 @@
         }
         var next = function () {
             if (global_q === false) {
-                global_q = true;
                 global_current++;
                 if (global_current >= global_data.length) {
                     global_current = 0;
                 }
+                if (global_data[global_current].hide && global_data[global_current].hide === "on") {
+                    next();
+                    return;
+                }
+                global_q = true;                
             }
             else {
                 global_q = false;
@@ -67,6 +71,8 @@
         var showQA = function () {
             if (global_q === true) {
                 $("#divQ").text(global_data[global_current].question);
+                $("#divQ").append("</br><span class='comments'>" + global_data[global_current].comments + "</span>");
+                $("#area2").text(global_data[global_current].area2);
                 $("#divA").text("");                
             } else {
                 $("#divA").text(global_data[global_current].answer);                
