@@ -29,7 +29,9 @@
 <table>
     <tr>
         <td style="vertical-align: top">
-    <p id="divQ" style="white-space: pre-wrap; float: left;">q</p>
+    <p id="divQ" style="white-space: pre-wrap; float: left;">
+        <img id="questionimg" />
+    </p>
     </td>
     <td style="vertical-align: top; background-color: beige;">
     <p id="divA" style="white-space: pre-wrap">a</p>
@@ -74,6 +76,9 @@
                 $("#divQ").text(global_data[global_current].question);
                 $("#divQ").append("</br><span class='comments'>" + global_data[global_current].comments + "</span>");
                 $("#area2").val(global_data[global_current].area2);
+                if (global_data[global_current].questionimg) {
+                    document.getElementById("questionimg").src=global_data[global_current].questionimg;
+                }
                 $("#divA").text("");                
             } else {
                 $("#divA").text(global_data[global_current].answer);                
