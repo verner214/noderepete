@@ -53,7 +53,8 @@
             if (global_q === false) {
                 global_current++;
                 if (global_current >= global_data.length) {
-                    global_current = 0;
+                    global_current = -1;
+                    return;//to avoid infinite loop when all items have hide == 'on'
                 }
                 if (global_data[global_current].hide && global_data[global_current].hide === "on") {
                     next();
@@ -102,7 +103,7 @@
                     global_data = data.value;
                     global_current = -1;
                     global_q = false;
-                    $("#lbl_max").text(" / " + global_data.length);
+                    $("#lbl_max").text(" / " + (global_data.length - 1));
                 },
                 beforeSend: function (xhr) {
 					$("#ul_debug").html("<span>beforeSend </span>");
