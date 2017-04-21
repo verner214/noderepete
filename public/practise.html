@@ -24,8 +24,9 @@
     <label>area1</label><input id="area1" type="text" />
     <label>area2</label><input id="area2" type="text" />
     <input type="button" value="börja (om)" onclick="getList();"/>
-    <input type="button" value="nästa" onclick="next();"/>
     <input type="button" value="editera" onclick="edit();"/>
+    <input type="button" value="nästa" onclick="prev();"/>
+    <input type="button" value="nästa" onclick="next();"/>
 </div>
 <table>
     <tr>
@@ -51,6 +52,11 @@
         var edit = function () {
             window.open("edit.html?RowKey=" + global_data[global_current].RowKey + "&PartitionKey=" + 
               global_data[global_current].PartitionKey);
+        }
+        var prev = function () {
+            if (global_current >= 1) {
+                global_current -=2;
+            }            
         }
         var next = function () {
             if (global_q === false) {
