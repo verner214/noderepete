@@ -112,7 +112,7 @@
             var area2 = document.getElementById('area2').value;
             var filter = "";
             if (area1.length > 0) {
-                filter = "$filter=area1%20eq%20'" + area1 + "'";
+                filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'";
                 if (area2.length > 0) {
                     filter += "%20and%20area2%20eq%20'" + area2 + "'";
                 }
