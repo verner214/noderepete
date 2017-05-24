@@ -10,6 +10,77 @@
     <h1><a href="/list.html">list.html</a></h1>
     <h2><a href="/new.html">new.html</a></h2>
     <h2><a href="/practise.html">practise.html</a></h2>
+
+    <ul id="ul_debug">
+    </ul>
+    <label>area1</label><input id="area1" type="text" />
+    <input type="button" value="lista area2" onclick="newQA();"/>
+
+    <div id="divJSON">
+        <ul id="ulJSON"></ul>
+    </div>
+
+    <script src="jquery-1.11.2.js"></script>
+    <script src="own.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ul_debug").append("<span>ready </span>");
+            var area1 = getParameterByName("area1");
+            document.getElementById('area1').value = area1; 
+            
+            var filter = "";
+            if (area1.length > 0) {
+                filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'";
+                filter += "&";
+                fetchPhotoList(filter);
+            }
+        });
+        var newQA = function () {
+            var area1 = document.getElementById('area1').value;
+            if (area1.length > 0) {
+                window.location = 'index.html?area1=' + area1;
+            }
+        }
+        var fetchPhotoList = function (filter) {
+            $.support.cors = true;
+            //signaturdelen (st=2015 fram till slutet) är skapat mha att gå till adressen /sas. koden finns i server.js.
+            //jQuery.support.cors = true;
+            $.ajax({//tableSAS:st=2015-03-29T18%3A35%3A25Z&se=2015-04-05T18%3A55%3A25Z&sp=r&sv=2014-02-14&tn=photos&sig=7t9DkALrw9QLsG4B%2BPUFodyDJHFCpvbwZsEfYoSuHpI%3D
+                url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblrepete?" + filter + 
+                "st=2017-02-08T20%3A34%3A21Z&se=2036-02-14T08%3A54%3A21Z&sp=r&sv=2014-02-14&tn=tblrepete&sig=HMFUBRLCbQbegxPB3X%2FC5O2%2FbbKe2P%2Fp9GNShPvIRvw%3D",
+                type: 'GET',
+                success: function (data) {
+					$("#ul_debug").append("<span>success</span>");
+                    data = data.value;
+                    var area1 = document.getElementById('area1').value;
+                    var dic = {};
+                    var arr = [];
+                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
+                        var area2 = data[i].area2;
+                        if (dic[area2] === undefined) {
+                            dic[area2] = 0;
+                            arr.push(area2);
+                        } else {
+                            dic[area2] += 1;
+                        }                        
+                    }
+                    for (var r = 0; r < arr.length; r++) {
+                        $("#ulJSON").append("<li><a href='list.html?area1=" + area1 + "&area2=" + arr[r] + "-" + dic[arr[r]] + "'>" + 
+                            arr[r] + "</a></li>");                        
+                    }
+                },
+                beforeSend: function (xhr) {
+					$("#ul_debug").append("<span>beforeSend </span>");
+                    xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
+                },
+                error: function (rcvData) {
+                    alert(JSON.stringify(rcvData));
+                    console.log(rcvData);
+                }
+            });
+        };
+    </script>
+    
     <p style="margin-top: 100px"><a href="/sas">Generate new shared signature för storage account och table tblrepete</a></p>
 </body>
 </html>

@@ -13,13 +13,30 @@
         <input type="button" value="sök" onclick="alert('hej');"/>
     <input type="button" value="new" onclick="newQA();"/>
 
+    <div id="lawa"/>
+
     <script type="text/javascript">
+        
         var newQA = function () {
-            var area1 = document.getElementById('area1').value;
-            var area2 = document.getElementById('area2').value;
-            if (area1.length > 0 && area2.length > 0) {
-                window.location = 'new.html?area1=' + area1 + '&area2=' + area2;
+            //var area1 = document.getElementById('area1').value;
+            var data = ["edit", "admin", "admin", "edit", "bil", "admin"];
+            var dic = {};
+            var arr = [];
+            for (var r = 0; r < data.length; r++) {
+                if (dic[data[r]] === undefined) {
+                    dic[data[r]] = 0;
+                    arr.push(data[r]);
+                } else {
+                    dic[data[r]] += 1;
+                }
             }
+            var result = "";
+            for (var r = 0; r < arr.length; r++) {
+                result += arr[r] + "-" + dic[arr[r]] + ",";
+            }
+
+
+            document.getElementById('lawa').innerHTML = result;
         }
     </script>
 </body>
