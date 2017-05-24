@@ -69,6 +69,7 @@ ul li {
                             dic[area2] += 1;
                         }                        
                     }
+                    arr.sort();
                     for (var r = 0; r < arr.length; r++) {
                         $("#ulJSON").append("<li><a href='list.html?area1=" + area1 + "&area2=" + arr[r] + "'>" + 
                             arr[r] + "-" + dic[arr[r]] + "</a></li>");                        
