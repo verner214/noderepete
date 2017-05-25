@@ -62,7 +62,7 @@ ul li {
                     var arr = [];
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var area2 = data[i].area2;
-                        var cmt = (data[i].comment !== undefined && data[i].comment !== null && data[i].comment.length > 0) ? 1 : 0;
+                        var cmt = (data[i].comments !== undefined && data[i].comments !== null && data[i].comments.length > 0) ? 1 : 0;
                         if (dic[area2] === undefined) {
                             var obj = {};
                             obj.cnt = 1;
