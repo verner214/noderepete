@@ -62,17 +62,24 @@ ul li {
                     var arr = [];
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var area2 = data[i].area2;
+                        var cmt = (data[i].comment !== undefined && data[i].comment !== null && data[i].comment.length > 0) ? 1 : 0;
                         if (dic[area2] === undefined) {
-                            dic[area2] = 0;
+                            var obj = {};
+                            obj.cnt = 1;
+                            obj.cntCmnt = cmt;
+                            dic[area2] = obj;
                             arr.push(area2);
                         } else {
-                            dic[area2] += 1;
+                            dic[area2].cnt += 1;
+                            dic[area2].cntCmnt += cmt;
                         }                        
                     }
                     arr.sort();
                     for (var r = 0; r < arr.length; r++) {
                         $("#ulJSON").append("<li><a href='list.html?area1=" + area1 + "&area2=" + arr[r] + "'>" + 
-                            arr[r] + "-" + dic[arr[r]] + "</a></li>");                        
+                            arr[r] + "-" + dic[arr[r]].cnt + "</a>" + 
+                            "<span style='color: red'>" + (dic[arr[r]].cntCmnt > 0 ? dic[arr[r]].cntCmnt : "") + "</span>" +
+                            "</li>");                        
                     }
                 },
                 beforeSend: function (xhr) {
