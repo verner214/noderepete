@@ -19,7 +19,7 @@ ul li {
     <ul id="ul_debug">
     </ul>
     <label>area1</label><input id="area1" type="text" />
-    <input type="button" value="lista area2" onclick="newQA();"/>
+    <input type="button" value="lista area1 eller 2 om ifyllt" onclick="listArea();"/>
     <input type="button" value="JSON to iframe" onclick="showJSON();"/>
     <input type="button" value="Images to iframe" onclick="showIMG();"/>
 
@@ -33,16 +33,44 @@ ul li {
         $(document).ready(function () {
             $("#ul_debug").append("<span>ready </span>");
             var area1 = getParameterByName("area1");
-            document.getElementById('area1').value = area1; 
-            
+            document.getElementById('area1').value = area1;             
             var filter = "";
+            
             if (area1.length > 0) {
-                filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'";
-                filter += "&";
-                fetchPhotoList(filter);
+                filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'&";
+
+                getJSON("", function(data) {
+                    data = data.value;
+                    var area1 = document.getElementById('area1').value;
+                    var dic = {};
+                    var arr = [];
+                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
+                        var area2 = data[i].area2;
+                        var cmt = (data[i].comments !== undefined && data[i].comments !== null && data[i].comments.length > 0) ? 1 : 0;
+                        if (dic[area2] === undefined) {
+                            var obj = {};
+                            obj.cnt = 1;
+                            obj.cntCmnt = cmt;
+                            dic[area2] = obj;
+                            arr.push(area2);
+                        } else {
+                            dic[area2].cnt += 1;
+                            dic[area2].cntCmnt += cmt;
+                        }                        
+                    }
+                    arr.sort();
+                    for (var r = 0; r < arr.length; r++) {
+                        $("#ulJSON").append("<li><a href='list.html?area1=" + area1 + "&area2=" + arr[r] + "'>" + 
+                            arr[r] + "-" + dic[arr[r]].cnt + "</a>" + 
+                            "<span style='color: red'>" + (dic[arr[r]].cntCmnt > 0 ? dic[arr[r]].cntCmnt : "") + "</span>" +
+                            "</li>");                        
+                    }
+                }, function(msg) {
+                    $("#ul_debug").append("<span>" + msg + "</span>");
+                });
             }
         });
-        var newQA = function () {
+        var listArea = function () {
             var area1 = document.getElementById('area1').value;
             if (area1.length > 0) {
                 window.location = 'index.html?area1=' + area1;
