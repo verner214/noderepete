@@ -34,12 +34,9 @@ ul li {
             $("#ul_debug").append("<span>ready </span>");
             var area1 = getParameterByName("area1");
             document.getElementById('area1').value = area1;             
-            var filter = "";
-            
-            if (area1.length > 0) {
-                filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'&";
 
-                getJSON("", function(data) {
+            if (area1.length > 0) {
+                getJSON("$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'&", function(data) {
                     data = data.value;
                     var area1 = document.getElementById('area1').value;
                     var dic = {};
