@@ -66,7 +66,17 @@ ul li {
             });
         }
         var showIMG = function () {
-            
+            getJSON("", function(data) {
+                data = data.value;
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += data[i].questionimg ? ("<img src='" + data[i].questionimg + "'/>") : "";
+                    html += data[i].answerimg ? ("<img src='" + data[i].answerimg + "'/>") : "";
+                }
+                makeIframe(html);
+            }, function(msg) {
+                $("#ul_debug").append("<span>" + msg + "</span>");
+            });
         }
 //        function getJSON(filter, processJSON, progress) {
 
