@@ -12,11 +12,20 @@
         <input id="area2" type="text" name="partitionkey" />
         <input type="button" value="sök" onclick="alert('hej');"/>
     <input type="button" value="new" onclick="newQA();"/>
+    <input type="button" value="makeIframe" onclick="makeIframe();"/>
 
     <div id="lawa"/>
 
     <script type="text/javascript">
-        
+        var makeIframe = function () {
+            var iframe = document.createElement('iframe');
+            var html = '<body><img src="' + 'https://portalvhdsgfh152bhy290k.blob.core.windows.net/cntolapp/upload/upload_8719e53cfe014a6d2284b3ebc9b80023.jpg' + '"></body>';
+            document.body.appendChild(iframe);
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(html);
+            iframe.contentWindow.document.close();        
+        }
+
         var newQA = function () {
             //var area1 = document.getElementById('area1').value;
             var data = ["edit", "admin", "admin", "edit", "bil", "admin"];
