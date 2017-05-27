@@ -48,7 +48,7 @@ ul li {
                 window.location = 'index.html?area1=' + area1;
             }
         }
-        
+
         var makeIframe = function (html) {
             var iframe = document.createElement('iframe');
             var html = "<body>" + html + "</body>";
@@ -59,7 +59,7 @@ ul li {
         }
         var showJSON = function () {
             getJSON("", function(data) {
-                makeIframe(JSON.stringify("<pre>" + data + "</pre>"));
+                makeIframe("<pre>" + JSON.stringify(data) + "</pre>");
             }, function(msg) {
                 $("#ul_debug").append("<span>" + msg + "</span>");
             });
