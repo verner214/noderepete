@@ -20,6 +20,8 @@ ul li {
     </ul>
     <label>area1</label><input id="area1" type="text" />
     <input type="button" value="lista area2" onclick="newQA();"/>
+    <input type="button" value="JSON to iframe" onclick="showJSON();"/>
+    <input type="button" value="Images to iframe" onclick="showIMG();"/>
 
     <div id="divJSON">
         <ul id="ulJSON"></ul>
@@ -46,6 +48,28 @@ ul li {
                 window.location = 'index.html?area1=' + area1;
             }
         }
+        
+        var makeIframe = function (html) {
+            var iframe = document.createElement('iframe');
+            var html = "<body>" + html + "</body>";
+            document.body.appendChild(iframe);
+            iframe.contentWindow.document.open();
+            iframe.contentWindow.document.write(html);
+            iframe.contentWindow.document.close();        
+        }
+        var showJSON = function () {
+            getJSON("", function(data) {
+                makeIframe(JSON.stringify("<pre>" + data + "</pre>"));
+            }, function(msg) {
+                $("#ul_debug").append("<span>" + msg + "</span>");
+            });
+        }
+        var showIMG = function () {
+            
+        }
+//        function getJSON(filter, processJSON, progress) {
+
+
         var fetchPhotoList = function (filter) {
             $.support.cors = true;
             //signaturdelen (st=2015 fram till slutet) är skapat mha att gå till adressen /sas. koden finns i server.js.

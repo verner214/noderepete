@@ -8,3 +8,29 @@ function getParameterByName(name) {
 function last4(str) {
     return (str.substring(str.length - 4, str.length));
 }
+function getJSON(filter, processJSON, progress) {
+    $.support.cors = true;
+    //signaturdelen (st=2015 fram till slutet) är skapat mha att gå till adressen /sas. koden finns i server.js.
+    //jQuery.support.cors = true;
+    $.ajax({//tableSAS:st=2015-03-29T18%3A35%3A25Z&se=2015-04-05T18%3A55%3A25Z&sp=r&sv=2014-02-14&tn=photos&sig=7t9DkALrw9QLsG4B%2BPUFodyDJHFCpvbwZsEfYoSuHpI%3D
+        url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblrepete?" + filter + 
+        "st=2017-02-08T20%3A34%3A21Z&se=2036-02-14T08%3A54%3A21Z&sp=r&sv=2014-02-14&tn=tblrepete&sig=HMFUBRLCbQbegxPB3X%2FC5O2%2FbbKe2P%2Fp9GNShPvIRvw%3D",
+        type: 'GET',
+        success: function (data) {
+            if (progress) {
+                progress("success");
+            }
+            processJSON(data.value);
+        },
+        beforeSend: function (xhr) {
+            if (progress) {
+                progress("beforeSend");
+            }
+            xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
+        },
+        error: function (rcvData) {
+            alert(JSON.stringify(rcvData));
+            console.log(rcvData);
+        }
+    });
+};//getJSON
