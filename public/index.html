@@ -71,6 +71,37 @@ ul li {
             var area1 = document.getElementById('area1').value;
             if (area1.length > 0) {
                 window.location = 'index.html?area1=' + area1;
+            } 
+            else {//om tom, hämta alla area1 och gör länkar av dessa
+                getJSON("$filter=hide%20ne%20'on'&", function(data) {
+                    data = data.value;
+//                    var area1 = document.getElementById('area1').value;
+                    var dic = {};
+                    var arr = [];
+                    for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
+                        var area1 = data[i].area1;
+                        var cmt = (data[i].comments !== undefined && data[i].comments !== null && data[i].comments.length > 0) ? 1 : 0;
+                        if (dic[area1] === undefined) {
+                            var obj = {};
+                            obj.cnt = 1;
+                            obj.cntCmnt = cmt;
+                            dic[area1] = obj;
+                            arr.push(area1);
+                        } else {
+                            dic[area1].cnt += 1;
+                            dic[area1].cntCmnt += cmt;
+                        }                        
+                    }
+                    arr.sort();
+                    for (var r = 0; r < arr.length; r++) {
+                        $("#ulJSON").append("<li><a href='index.html?area1=" + arr[r] + "'>" + 
+                            arr[r] + "-" + dic[arr[r]].cnt + "</a>" + 
+                            "<span style='color: red'>" + (dic[arr[r]].cntCmnt > 0 ? dic[arr[r]].cntCmnt : "") + "</span>" +
+                            "</li>");                        
+                    }
+                }, function(msg) {
+                    $("#ul_debug").append("<span>" + msg + "</span>");
+                });
             }
         }
 
