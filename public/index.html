@@ -59,9 +59,9 @@ ul li {
         }
         var showJSON = function () {
             getJSON("", function(data) {
-                $("#mydiv").text( JSON.stringify(data));
-
-                //makeIframe("<pre>" + JSON.stringify(data) + "</pre>");
+                $("#mydiv").text(JSON.stringify(data));
+var escaped = $("<div>").text(JSON.stringify(data)).html();
+                makeIframe("<pre>" + escaped + "</pre>");
             }, function(msg) {
                 $("#ul_debug").append("<span>" + msg + "</span>");
             });
