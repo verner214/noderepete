@@ -20,7 +20,7 @@ function getJSON(filter, processJSON, progress) {
             if (progress) {
                 progress("success");
             }
-            processJSON(data.value);
+            processJSON(data);
         },
         beforeSend: function (xhr) {
             if (progress) {

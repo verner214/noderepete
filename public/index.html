@@ -26,7 +26,7 @@ ul li {
     <div id="divJSON">
         <ul id="ulJSON"></ul>
     </div>
-
+     <div id="mydiv"></div>
     <script src="jquery-1.11.2.js"></script>
     <script src="own.js"></script>
     <script type="text/javascript">
@@ -59,7 +59,9 @@ ul li {
         }
         var showJSON = function () {
             getJSON("", function(data) {
-                makeIframe("<pre>" + JSON.stringify(data) + "</pre>");
+                $("#mydiv").text( JSON.stringify(data));
+
+                //makeIframe("<pre>" + JSON.stringify(data) + "</pre>");
             }, function(msg) {
                 $("#ul_debug").append("<span>" + msg + "</span>");
             });
