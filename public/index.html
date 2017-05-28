@@ -60,9 +60,8 @@ ul li {
                     for (var r = 0; r < arr.length; r++) {
                         $("#ulJSON").append("<li><a href='list.html?area1=" + area1 + "&area2=" + arr[r] + "'>" + 
                             arr[r] + "-" + dic[arr[r]].cnt + "</a>" +
-                            " <a href='practise.html?area1=" + area1 + "&area2=" + arr[r] + "'>" + 
-                            arr[r] + "</a>" + 
                             "<span style='color: red'>" + (dic[arr[r]].cntCmnt > 0 ? dic[arr[r]].cntCmnt : "") + "</span>" +
+                            " <a href='practise.html?area1=" + area1 + "&area2=" + arr[r] + "'>practise</a>" + 
                             "</li>");                        
                     }
                 }, function(msg) {
@@ -100,9 +99,8 @@ ul li {
                     for (var r = 0; r < arr.length; r++) {
                         $("#ulJSON").append("<li><a href='index.html?area1=" + arr[r] + "'>" + 
                             arr[r] + "-" + dic[arr[r]].cnt + "</a>" + 
-                            " <a href='practise.html?area1=" + arr[r] + "'>" + 
-                            arr[r] + "</a>" + 
                             "<span style='color: red'>" + (dic[arr[r]].cntCmnt > 0 ? dic[arr[r]].cntCmnt : "") + "</span>" +
+                            " <a href='practise.html?area1=" + arr[r] + "'>practise</a>" + 
                             "</li>");                        
                     }
                 }, function(msg) {

@@ -107,6 +107,15 @@
                 }
             }
         }
+        $(document).ready(function () {
+            $("#ul_debug").append("<span>ready </span>");
+            var area1 = getParameterByName("area1");
+            document.getElementById('area1').value = area1; 
+            var area2 = getParameterByName("area2");
+            document.getElementById('area2').value = area2; 
+            getList();
+        });
+        
         var getList = function () {
             var area1 = document.getElementById('area1').value;
             var area2 = document.getElementById('area2').value;
