@@ -127,6 +127,7 @@ app.post('/newedit', function (req, res, next) {
                 answer: entGen.String(fields.answer),
                 comments: entGen.String(fields.comments),
                 showlevel: entGen.String(fields.showlevel),
+                order: entGen.String(fields.order),
                 hide: entGen.String((fields.hide === null || fields.hide === undefined) ? "" : "on")
             };
             if (bNew) {
