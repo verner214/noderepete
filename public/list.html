@@ -12,6 +12,7 @@
     h1   {color: blue;}
     .comments  {color: red;}
     .index {font-size: 1.5em}
+    .order {background-color: yellow}
 </style>
 
 </head>
@@ -89,7 +90,8 @@
                     for (var i = 0; i < data.length; i++) {//i olapp finns img-kod att hämta
                         var bgc = data[i].hide && data[i].hide === "on" ? "hidden" : "";
                         $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
-                            "</span><a href='edit.html?RowKey=" + data[i].RowKey + 
+                            " <span class='order'>" + data[i].order +
+                            "</span></span><a href='edit.html?RowKey=" + data[i].RowKey + 
                             "&PartitionKey=" + data[i].PartitionKey + "'>" + last4(data[i].RowKey) + " " + data[i].question + "</a><span class='answer'> " + 
                             data[i].answer + "</span></br><span class='comments'>" + data[i].comments + "</span>" + 
                             (data[i].questionimg ? ("</br><img src='" + data[i].questionimg + "'/>") : "") +
