@@ -34,3 +34,31 @@ function getJSON(filter, processJSON, progress) {
         }
     });
 };//getJSON
+//returnerar index i arrayen av det element som har minst order dock högre än val
+function getLowest(arr, val) {
+    var lowest = 9999999;
+    var index = -1;
+    for (var r = 0; r < arr.length; r++) {
+        if (arr[r].order !== undefined && arr[r].order < lowest && arr[r].order >= val) {
+            lowest = arr[r].order;
+            index = r;            
+        }
+    }
+    return index;
+}
+
+//returnerar en array med "pekare" ordningen i arr
+function orderArray(arr) {
+    var orderArr = [];
+    var low = getLowest(arr, 0);
+    while (low !== -1) {
+        orderArr.push(low);
+        low = getLowest(arr, arr[low].order + 1);
+    }
+    for (var r = 0; r < arr.length; r++) {
+        if (arr[r].order === undefined) {
+            orderArr.push(r);
+        }
+    }
+    return orderArr;
+}
