@@ -54,7 +54,7 @@ function orderArray(arr) {
     while (low !== -1) {
         orderArr.push(low);
         var low2 = getLowest(arr, arr[low].order, low + 1);
-        if (low2 !== -1) {
+        if (low2 !== -1 && arr[low].order === arr[low2].order) {
             orderArr.push(low2);
         }
         low = getLowest(arr, arr[low].order + 1, 0);
