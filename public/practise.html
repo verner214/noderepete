@@ -47,11 +47,12 @@
     <script src="own.js"></script>
     <script type="text/javascript">
         var global_data = [];
+        var orderArr = [];
         var global_current = -1;
         var global_q = false;
         var edit = function () {
-            window.open("edit.html?RowKey=" + global_data[global_current].RowKey + "&PartitionKey=" + 
-              global_data[global_current].PartitionKey);
+            window.open("edit.html?RowKey=" + global_data[orderArr[global_current]].RowKey + "&PartitionKey=" + 
+              global_data[orderArr[global_current]].PartitionKey);
         }
         var prev = function () {
             if (global_current >= 1) {
@@ -65,7 +66,7 @@
                     global_current = -1;
                     return;//to avoid infinite loop when all items have hide == 'on'
                 }
-                if (global_data[global_current].hide && global_data[global_current].hide === "on") {
+                if (global_data[orderArr[global_current]].hide && global_data[orderArr[global_current]].hide === "on") {
                     next();
                     return;
                 }
@@ -80,12 +81,12 @@
         }
         var showQA = function () {
             if (global_q === true) {
-                $("#divQ").text(global_data[global_current].question);
-                $("#divQ").append("</br><span class='comments'>" + global_data[global_current].comments + "</span>");
-                $("#area2").val(global_data[global_current].area2);
-                if (global_data[global_current].questionimg) {
+                $("#divQ").text(global_data[orderArr[global_current]].question);
+                $("#divQ").append("</br><span class='comments'>" + global_data[orderArr[global_current]].comments + "</span>");
+                $("#area2").val(global_data[orderArr[global_current]].area2);
+                if (global_data[orderArr[global_current]].questionimg) {
                     $("#questionimg").show();
-                    document.getElementById("questionimg").src=global_data[global_current].questionimg;
+                    document.getElementById("questionimg").src=global_data[orderArr[global_current]].questionimg;
                 } else {
                     $("#questionimg").hide();
                 }
@@ -97,10 +98,10 @@
                 $("#divA").text("");                
                 $("#answerimg").hide();
             } else {
-                document.getElementById("answerimg").src=global_data[global_current].answerimg;
-                $("#divA").text(global_data[global_current].answer);                
-                if (global_data[global_current].answerimg) {
-                    document.getElementById("answerimg").src=global_data[global_current].answerimg;
+                document.getElementById("answerimg").src=global_data[orderArr[global_current]].answerimg;
+                $("#divA").text(global_data[orderArr[global_current]].answer);                
+                if (global_data[orderArr[global_current]].answerimg) {
+                    document.getElementById("answerimg").src=global_data[orderArr[global_current]].answerimg;
                     $("#answerimg").show();
                 } else {
                     $("#answerimg").hide();
@@ -138,6 +139,7 @@
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span>");
                     global_data = data.value;
+                    orderArr = orderArray(global_data);
                     global_current = -1;
                     global_q = false;
                     $("#lbl_max").text(" / " + (global_data.length - 1));
