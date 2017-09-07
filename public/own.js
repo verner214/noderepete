@@ -39,8 +39,8 @@ function getLowest(arr, val, startindex) {
     var lowest = 9999999;
     var index = -1;
     for (var r = startindex; r < arr.length; r++) {
-        if (arr[r].order !== undefined && arr[r].order < lowest && arr[r].order >= val) {
-            lowest = arr[r].order;
+        if (arr[r].order !== undefined && parseInt(arr[r].order) < lowest && parseInt(arr[r].order) >= val) {
+            lowest = parseInt(arr[r].order);
             index = r;            
         }
     }
@@ -53,11 +53,11 @@ function orderArray(arr) {
     var low = getLowest(arr, 0, 0);
     while (low !== -1) {
         orderArr.push(low);
-        var low2 = getLowest(arr, arr[low].order, low + 1);
-        if (low2 !== -1 && arr[low].order === arr[low2].order) {
+        var low2 = getLowest(arr, parseInt(arr[low].order), low + 1);
+        if (low2 !== -1 && parseInt(arr[low].order) === parseInt(arr[low2].order)) {
             orderArr.push(low2);
         }
-        low = getLowest(arr, arr[low].order + 1, 0);
+        low = getLowest(arr, parseInt(arr[low].order) + 1, 0);
     }
     for (var r = 0; r < arr.length; r++) {
         if (arr[r].order === undefined) {
