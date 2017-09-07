@@ -35,10 +35,10 @@ function getJSON(filter, processJSON, progress) {
     });
 };//getJSON
 //returnerar index i arrayen av det element som har minst order dock högre än val
-function getLowest(arr, val) {
+function getLowest(arr, val, startindex) {
     var lowest = 9999999;
     var index = -1;
-    for (var r = 0; r < arr.length; r++) {
+    for (var r = startindex; r < arr.length; r++) {
         if (arr[r].order !== undefined && arr[r].order < lowest && arr[r].order >= val) {
             lowest = arr[r].order;
             index = r;            
@@ -50,10 +50,14 @@ function getLowest(arr, val) {
 //returnerar en array med "pekare" ordningen i arr
 function orderArray(arr) {
     var orderArr = [];
-    var low = getLowest(arr, 0);
+    var low = getLowest(arr, 0, 0);
     while (low !== -1) {
         orderArr.push(low);
-        low = getLowest(arr, arr[low].order + 1);
+        var low2 = getLowest(arr, arr[low].order, low + 1);
+        if (low2 !== -1) {
+            orderArr.push(low2);
+        }
+        low = getLowest(arr, arr[low].order + 1, 0);
     }
     for (var r = 0; r < arr.length; r++) {
         if (arr[r].order === undefined) {
