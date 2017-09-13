@@ -27,6 +27,7 @@
     <input type="button" value="editera" onclick="edit();"/>
     <input type="button" value="förra" onclick="prev();"/>
     <input type="button" value="nästa" onclick="next();"/>
+    <span id="lbl_order"></span>
 </div>
 <table>
     <tr>
@@ -97,6 +98,7 @@
                 }*/
                 $("#divA").text("");                
                 $("#answerimg").hide();
+                $("#lbl_order").text(global_data[orderArr[global_current]].order);
             } else {
                 document.getElementById("answerimg").src=global_data[orderArr[global_current]].answerimg;
                 $("#divA").text(global_data[orderArr[global_current]].answer);                
