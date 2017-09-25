@@ -39,7 +39,7 @@ function getLowest(arr, val, startindex) {
     var lowest = 9999999;
     var index = -1;
     for (var r = startindex; r < arr.length; r++) {
-        if (arr[r].order !== undefined && parseInt(arr[r].order) < lowest && parseInt(arr[r].order) >= val) {
+        if (arr[r].order !== undefined && arr[r].order.length !== 0 && parseInt(arr[r].order) < lowest && parseInt(arr[r].order) >= val) {
             lowest = parseInt(arr[r].order);
             index = r;            
         }
@@ -59,8 +59,9 @@ function orderArray(arr) {
         }
         low = getLowest(arr, parseInt(arr[low].order) + 1, 0);
     }
+    //lägg alla items som inte har order satt till nummer sist.
     for (var r = 0; r < arr.length; r++) {
-        if (arr[r].order === undefined) {
+        if (arr[r].order === undefined || arr[r].order.length === 0 ) {
             orderArr.push(r);
         }
     }
