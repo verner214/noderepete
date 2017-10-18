@@ -93,8 +93,8 @@
                         $("#ulJSON").append("<li class='question " + bgc + " '><span class='index'>" + i +
                             " <span class='order'>" + item.order +
                             "</span></span><a href='edit.html?RowKey=" + item.RowKey + 
-                            "&PartitionKey=" + item.PartitionKey + "'>" + last4(item.RowKey) + " " + item.question + "</a><span class='answer'> " + 
-                            item.answer + "</span></br><span class='comments'>" + item.comments + "</span>" + 
+                            "&PartitionKey=" + item.PartitionKey + "'>" + last4(item.RowKey) + " " + htmlEncode(item.question) + "</a><span class='answer'> " + 
+                            htmlEncode(item.answer) + "</span></br><span class='comments'>" + htmlEncode(item.comments) + "</span>" + 
                             (item.questionimg ? ("</br><img src='" + item.questionimg + "'/>") : "") +
                             (item.answerimg ? ("</br><img src='" + item.answerimg + "'/>") : "") +
                             "</li>");
