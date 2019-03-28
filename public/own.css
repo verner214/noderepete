@@ -9,7 +9,7 @@ ul img[src="trash.jpg"] { width: 100px;}
 /* SLUT gäller desktop */
 
 @media only screen and (max-width: 480px) {
-    body {font-size: 3em;}
+    body {font-size: 2.5vw;}
     ul img { width: 200px;}/* thumbnails */
     ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
     .desktop {
