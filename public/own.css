@@ -1,29 +1,25 @@
-@media only screen and (max-width: 580px) {
+/* gäller alla konfigurationer */
+li {list-style-type: none;}
+ul li {margin-bottom: 10px;}
+/* SLUT gäller alla konfigurationer */
+
+/* gäller desktop */
+ul img { width: 200px;}
+ul img[src="trash.jpg"] { width: 100px;}
+/* SLUT gäller desktop */
+
+@media only screen and (max-width: 480px) {
     body {font-size: 3em;}
     ul img { width: 200px;}/* thumbnails */
     ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
     .desktop {
         display: none;
     }
-    body div.mobile {
-        color: yellow;
+    .mobil {
+        color: red;
     }
 }
-div.mobil {
-    color: red;
-}
-div.desktop {
-    color: green;
-}
-li {list-style-type: none;}
-ul li {margin-bottom: 10px;}
 
-.mobil {
-    color: blue;
-}
-.desktop {
-    color: brown;
-}
 
 /*
 li {list-style-type: none;}
