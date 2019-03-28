@@ -1,19 +1,14 @@
-@media (resolution: 1dppx) {
-        ul img { width: 100px;}/* thumbnails */
-        ul img[src="trash.jpg"] { width: 50px;}/* delete-image */
-        .mobil {
-            display: none;
-        }
+@media only screen and (max-width: 480px) {
+    body {font-size: 5em;}
+    ul img { width: 200px;}/* thumbnails */
+    ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
+    .desktop {
+        display: none;
     }
-
-@media (max-width: 480px) {
-        body {font-size: 5em;}
-        ul img { width: 200px;}/* thumbnails */
-        ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
-        .desktop {
-            display: none;
-        }
+    body div.desktop {
+        color: yellow;
     }
+}
 div.mobil {
     color: red;
 }
