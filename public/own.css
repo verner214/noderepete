@@ -1,12 +1,12 @@
-@media screen {
-    @media (resolution: 1dppx) {
+@media (resolution: 1dppx) {
         ul img { width: 100px;}/* thumbnails */
         ul img[src="trash.jpg"] { width: 50px;}/* delete-image */
         .mobil {
             display: none;
         }
     }
-    @media (max-width: 480px) {
+
+@media (max-width: 480px) {
         body {font-size: 5em;}
         ul img { width: 200px;}/* thumbnails */
         ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
@@ -14,12 +14,11 @@
             display: none;
         }
     }
-    div.mobil {
-        color: red;
-    }
-    div.desktop {
-        color: green;
-    }
+div.mobil {
+    color: red;
+}
+div.desktop {
+    color: green;
 }
 li {list-style-type: none;}
 ul li {margin-bottom: 10px;}
