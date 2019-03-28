@@ -14,9 +14,22 @@
             display: none;
         }
     }
+    div.mobil {
+        color: red;
+    }
+    div.desktop {
+        color: green;
+    }
 }
 li {list-style-type: none;}
 ul li {margin-bottom: 10px;}
+
+.mobil {
+    color: blue;
+}
+.desktop {
+    color: brown;
+}
 
 /*
 li {list-style-type: none;}
