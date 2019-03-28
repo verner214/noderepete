@@ -6,7 +6,7 @@
             display: none;
         }
     }
-    @media (min-resolution: 2dppx) {
+    @media (max-width: 480px) {
         body {font-size: 5em;}
         ul img { width: 200px;}/* thumbnails */
         ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
