@@ -5,7 +5,7 @@
     .desktop {
         display: none;
     }
-    body div.desktop {
+    body div.mobile {
         color: yellow;
     }
 }
