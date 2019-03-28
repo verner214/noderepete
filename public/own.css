@@ -1,4 +1,4 @@
-@media only screen {
+@media screen {
     @media (resolution: 1dppx) {
         ul img { width: 100px;}/* thumbnails */
         ul img[src="trash.jpg"] { width: 50px;}/* delete-image */
