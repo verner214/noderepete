@@ -7,12 +7,22 @@
     <title></title>
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <style type="text/css">
+    #flexi {
+        border: dotted;
+    }
+    </style>
 </head>
 <body>
-        <script src="jquery-1.11.2.js"></script>
-        <script src="own.js"></script>
-        <script type="text/javascript">
-        </script>
-        practise_m
+    <div id="flexi">
+
+    </div>
+<script src="jquery-1.11.2.js"></script>
+<script src="own.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#flexi").append("<div>inutidiv</div>");
+    }
+</script>
 </body>
 </html>
