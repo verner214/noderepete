@@ -12,12 +12,13 @@
         height: 100%;
     }
     #flexi {
-        overflow-x: auto;
+        overflow-x: auto;/*utan denna ingen scroll-snap! kanske inte så konstigt, det är ju först då scroll uppstår
+        utan den är det viewports scroll man ser.*/
         /*white-space: nowrap;*/
-        position: static;/*absolute här pajar scroll snap */
+        position: static;/*absolute här pajar scroll snap. därför att absolute inte får scroll? (är det så? knappast va?)*/
         height: 100%;
-        top: 0px;
-        left: 0px;
+        /*top: 0px;
+        left: 0px;*/
         display: flex;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
