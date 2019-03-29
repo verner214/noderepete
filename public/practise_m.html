@@ -38,16 +38,114 @@
     </style>
 </head>
 <body>
+        <ul style="position: absolute;top: 0px; left: 0px;" id="ul_debug"></ul>
+
     <div id="flexi">
     </div>
 <script src="jquery-1.11.2.js"></script>
 <script src="own.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#flexi").append("<div>inutidiv1</div>");
-        $("#flexi").append("<div>inutidiv2</div>");
-        $("#flexi").append("<div>inutidiv3</div>");
+        //$("#flexi").append("<div>inutidiv1</div>");
+        //$("#flexi").append("<div>inutidiv2</div>");
+        //$("#flexi").append("<div>inutidiv3</div>");
     });
 </script>
+    <script type="text/javascript">
+        var global_data = [];
+        var orderArr = [];
+        var global_current = -1;
+        var global_q = false;
+        var edit = function () {
+            window.open("edit.html?RowKey=" + global_data[orderArr[global_current]].RowKey + "&PartitionKey=" + 
+              global_data[orderArr[global_current]].PartitionKey);
+        }
+        var prev = function () {
+            if (global_current >= 1) {
+                global_current -=2;
+            }            
+        }
+        var next = function () {
+            if (global_q === false) {
+                global_current++;
+                if (global_current >= global_data.length) {
+                    global_current = -1;
+                    return;//to avoid infinite loop when all items have hide == 'on'
+                }
+                if (global_data[orderArr[global_current]].hide && global_data[orderArr[global_current]].hide === "on") {
+                    next();
+                    return;
+                }
+                global_q = true;                
+            }
+            else {
+                global_q = false;
+            }
+            $("#lbl_cnt").text("" + global_current);
+            //document.getElementById("lbl_cnt").innerText("" + global_current);
+            showQA();
+        }
+        var showQA = function () {
+            if (global_q === true) {
+                $("#divQ").text(global_data[orderArr[global_current]].question);
+                $("#divQ").append("</br><span class='comments'>" + global_data[orderArr[global_current]].comments + "</span>");
+                $("#area2").val(global_data[orderArr[global_current]].area2);
+                if (global_data[orderArr[global_current]].questionimg) {
+                    $("#questionimg").show();
+                    document.getElementById("questionimg").src=global_data[orderArr[global_current]].questionimg;
+                } else {
+                    $("#questionimg").hide();
+                }
+                /*
+                if (global_data[global_current].questionimg) {
+                    //alert(document.getElementById("questionimg").src + global_data[global_current].questionimg);
+                    document.getElementById("questionimg").src=global_data[global_current].questionimg;
+                }*/
+                $("#divA").text("");                
+                $("#answerimg").hide();
+                $("#lbl_order").text(global_data[orderArr[global_current]].order);
+            } else {
+                document.getElementById("answerimg").src=global_data[orderArr[global_current]].answerimg;
+                $("#divA").text(global_data[orderArr[global_current]].answer);                
+                if (global_data[orderArr[global_current]].answerimg) {
+                    document.getElementById("answerimg").src=global_data[orderArr[global_current]].answerimg;
+                    $("#answerimg").show();
+                } else {
+                    $("#answerimg").hide();
+                }
+            }
+        }
+        $(document).ready(function () {
+            var area1 = getParameterByName("area1");
+            var area2 = getParameterByName("area2");
+            var filter = "$filter=hide%20ne%20'on'%20and%20area1%20eq%20'" + area1 + "'%20and%20area2%20eq%20'" + area2 + "'&";
+            fetchPhotoList(filter);
+        });
+        
+        var fetchPhotoList = function (filter) {
+            $.support.cors = true;
+            $.ajax({
+                url: "https://portalvhdsgfh152bhy290k.table.core.windows.net/tblrepete?" + filter + 
+                "st=2017-02-08T20%3A34%3A21Z&se=2036-02-14T08%3A54%3A21Z&sp=r&sv=2014-02-14&tn=tblrepete&sig=HMFUBRLCbQbegxPB3X%2FC5O2%2FbbKe2P%2Fp9GNShPvIRvw%3D",
+                type: 'GET',
+                success: function (data) {
+					$("#ul_debug").append("<span>success</span>");
+                    global_data = data.value;
+                    orderArr = orderArray(global_data);
+                    global_current = -1;
+                    global_q = false;
+                },
+                beforeSend: function (xhr) {
+					$("#ul_debug").html("<span>beforeSend </span>");
+                    xhr.setRequestHeader('Accept', 'application/json;odata=nometadata');
+                },
+                error: function (rcvData) {
+                    alert(JSON.stringify(rcvData));
+                    console.log(rcvData);
+                }
+            });
+        };
+    </script>
+
 </body>
 </html>
