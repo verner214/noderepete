@@ -3,6 +3,7 @@ li {list-style-type: none;}
 ul li {margin-bottom: 10px;}
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 /* SLUT gäller alla konfigurationer */
 
