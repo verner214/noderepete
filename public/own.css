@@ -8,8 +8,11 @@ ul img { width: 200px;}
 ul img[src="trash.jpg"] { width: 100px;}
 /* SLUT gäller desktop */
 
-@media only screen and (max-width: 480px) {
-    body {font-size: 2.5vw;}
+@media only screen and (max-width: 640px) {
+    body {
+        font-size: normal;
+        -webkit-text-size-adjust: 100%;
+    }
     ul img { width: 200px;}/* thumbnails */
     ul img[src="trash.jpg"] { width: 100px;}/* delete-image */
     .desktop {
