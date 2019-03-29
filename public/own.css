@@ -1,6 +1,9 @@
 /* gäller alla konfigurationer */
 li {list-style-type: none;}
 ul li {margin-bottom: 10px;}
+* {
+    box-sizing: border-box;
+}
 /* SLUT gäller alla konfigurationer */
 
 /* gäller desktop */
