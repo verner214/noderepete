@@ -27,10 +27,13 @@
         height: 100%;
         background: red;
         min-width: 100vw;
-        scroll-snap-align: start;
+        scroll-snap-align: start;/*center samma effekt?*/
     }
     #flexi div:nth-child(even) {
         background: green;
+    }
+    #flexi div:nth-child(3) {
+        background: blue;
     }
     </style>
 </head>
@@ -43,6 +46,7 @@
     $(document).ready(function(){
         $("#flexi").append("<div>inutidiv1</div>");
         $("#flexi").append("<div>inutidiv2</div>");
+        $("#flexi").append("<div>inutidiv3</div>");
     });
 </script>
 </body>
