@@ -18,6 +18,9 @@
         height: 100%;
         background: red;
     }
+    #flexi div:nth-child(even) {
+        background: green;
+    }
     </style>
 </head>
 <body>
@@ -27,7 +30,8 @@
 <script src="own.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#flexi").append("<div>inutidiv</div>");
+        $("#flexi").append("<div>inutidiv1</div>");
+        $("#flexi").append("<div>inutidiv2</div>");
     });
 </script>
 </body>
