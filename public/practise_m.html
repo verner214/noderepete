@@ -14,11 +14,14 @@
         top: 0px;
         left: 0px;
         display: flex;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
     }
     #flexi div {
         height: 100%;
         background: red;
         min-width: 100vw;
+        scroll-snap-align: start;
     }
     #flexi div:nth-child(even) {
         background: green;
