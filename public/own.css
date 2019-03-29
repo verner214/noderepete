@@ -10,7 +10,7 @@ ul img[src="trash.jpg"] { width: 100px;}
 
 @media only screen and (max-width: 640px) {
     body {
-        font-size: normal;
+        font-size: large;
         -webkit-text-size-adjust: 100%;
     }
     ul img { width: 200px;}/* thumbnails */
