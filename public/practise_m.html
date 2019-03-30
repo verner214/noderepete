@@ -144,7 +144,7 @@
                                 "'/>" + data.value[orderArr[i]].answer + "</div>");
                         }
                         else {
-                            $("#flexi").append(htmlEncode("<div>" + data.value[orderArr[i]].answer + "</div>"));
+                            $("#flexi").append("<div>" + htmlEncode(data.value[orderArr[i]].answer) + "</div>");
                         }
                     }
                 },
