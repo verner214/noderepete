@@ -132,7 +132,7 @@
                     //global_current = -1;
                     //global_q = false;
                     for (var i = 0; i < data.value.length; i+=2) {
-                        $("#flexi").append("<div>question</div>");
+                        $("#flexi").append("<div>" + data.value[orderArr[i]].question + "</div>");
                         $("#flexi").append("<div>answer</div>");
                     }
                 },
