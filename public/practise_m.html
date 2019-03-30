@@ -137,11 +137,17 @@
                     //global_current = -1;
                     //global_q = false;
                     for (var i = 0; i < data.value.length; i++) {
-                        $("#flexi").append("<div>" + data.value[orderArr[i]].question + "</div>");
+                        if (data.value[orderArr[i]].questionimg) {
+                            $("#flexi").append("<div><img src='" + data.value[orderArr[i]].questionimg + 
+                                "'/>" + htmlEncode(data.value[orderArr[i]].question) + "</div>");
+                        }
+                        else {
+                            $("#flexi").append("<div>" + htmlEncode(data.value[orderArr[i]].question) + "</div>");
+                        }
 
                         if (data.value[orderArr[i]].answerimg) {
                             $("#flexi").append("<div><img src='" + data.value[orderArr[i]].answerimg + 
-                                "'/>" + data.value[orderArr[i]].answer + "</div>");
+                                "'/>" + htmlEncode(data.value[orderArr[i]].answer) + "</div>");
                         }
                         else {
                             $("#flexi").append("<div>" + htmlEncode(data.value[orderArr[i]].answer) + "</div>");
