@@ -32,9 +32,6 @@
     #flexi div:nth-child(even) {
         background: green;
     }
-    #flexi div:nth-child(3) {
-        background: blue;
-    }
     </style>
 </head>
 <body>
@@ -130,10 +127,14 @@
                 type: 'GET',
                 success: function (data) {
 					$("#ul_debug").append("<span>success</span>");
-                    global_data = data.value;
-                    orderArr = orderArray(global_data);
-                    global_current = -1;
-                    global_q = false;
+                    //global_data = data.value;
+                    var orderArr = orderArray(data.value);
+                    //global_current = -1;
+                    //global_q = false;
+                    for (var i = 0; i < data.value.length; i+=2) {
+                        $("#flexi").append("<div>question</div>");
+                        $("#flexi").append("<div>answer</div>");
+                    }
                 },
                 beforeSend: function (xhr) {
 					$("#ul_debug").html("<span>beforeSend </span>");
