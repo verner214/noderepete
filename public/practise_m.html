@@ -25,13 +25,13 @@
     }
     #flexi div {
         height: 100%;
-        background: red;
+        /*background: red;*/
         min-width: 100vw;
         scroll-snap-align: start;/*center samma effekt?*/
         white-space: pre-wrap;
     }
     #flexi div:nth-child(even) {
-        background: green;
+        background: beige;
     }
     </style>
 </head>
@@ -132,9 +132,9 @@
                     var orderArr = orderArray(data.value);
                     //global_current = -1;
                     //global_q = false;
-                    for (var i = 0; i < data.value.length; i+=2) {
+                    for (var i = 0; i < data.value.length; i++) {
                         $("#flexi").append("<div>" + data.value[orderArr[i]].question + "</div>");
-                        $("#flexi").append("<div>answer</div>");
+                        $("#flexi").append("<div>" + data.value[orderArr[i]].answer + "</div>");
                     }
                 },
                 beforeSend: function (xhr) {
