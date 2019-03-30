@@ -134,7 +134,14 @@
                     //global_q = false;
                     for (var i = 0; i < data.value.length; i++) {
                         $("#flexi").append("<div>" + data.value[orderArr[i]].question + "</div>");
-                        $("#flexi").append("<div>" + data.value[orderArr[i]].answer + "</div>");
+
+                        if (data.value[orderArr[i]].answerimg) {
+                            $("#flexi").append("<div><img src='" + data.value[orderArr[i]].answerimg + 
+                                "'/>" + data.value[orderArr[i]].answer + "</div>");
+                        }
+                        else {
+                            $("#flexi").append("<div>" + data.value[orderArr[i]].answer + "</div>");
+                        }
                     }
                 },
                 beforeSend: function (xhr) {
