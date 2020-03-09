@@ -4,7 +4,9 @@ var glbl8562 = {
         "publicApiKey": "5X1BH8B132H4I07165HE87F6I26D79F3",
     }
 };
-
+function getSearchKey() {
+    return decryptKey(glbl8562.search.publicApiKey, getCookie("gnaget"));
+}
 function login(password) {    
     console.log('save cookie');
     createCookie('gnaget', password, true);   

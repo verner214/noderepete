@@ -24,8 +24,8 @@
     <thead><tr>
         <th>scr</th><!--även länk till edit-->
         <th>time</th>
-        <th>tags</th>
-        <th>description</th>
+        <th>area1</th>
+        <th>area2</th>
     </tr></thead>
     <tbody></tbody><!--behövs, rader adderas hit mha javascript-->
 </table>
@@ -82,6 +82,10 @@ function buildTable(tableid, items) {
 //area1                                    
         var newCell  = newRow.insertCell(2);
         var tagsText = document.createTextNode(items[i].area1);
+        newCell.appendChild(tagsText);
+//area2                                    
+        var newCell  = newRow.insertCell(3);
+        var tagsText = document.createTextNode(items[i].area2);
         newCell.appendChild(tagsText);
     }
 }
