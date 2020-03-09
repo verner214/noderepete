@@ -1,3 +1,4 @@
+//obs! fick cors fel som löstes med att lägga till /search efter docs nedan.
 var glbl8562 = { 
     "search" : {
         "url" : "https://gnaget.search.windows.net/indexes/repetesearchindex/docs/search?api-version=2019-05-06",

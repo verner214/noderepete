@@ -45,7 +45,7 @@ jQuery(function($) {
         
 //sökresultat        
         var phrase =  getParameterByName('phrase');
-        var body = {"top":20};
+        var body = {"top":100};
         if (phrase.length > 0) {
             body.search = phrase;
             document.getElementById("phrase").value = decodeURIComponent(phrase);
