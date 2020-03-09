@@ -6,18 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>lawa wiki</title>
     <link rel="stylesheet" type="text/css" href="./own.css">
-    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./jquery-1.11.2.js"></script>
     <script type="text/javascript" src="./js/util.js"></script>
     <script type="text/javascript" src="./js/azure.js"></script>
 </head>
 <body>
-<nav>
-    <a href="index.html">hem</a> 
-    <a href="fav/index.html">fav</a>
-    <a href="blobs/index.html">bank</a>
-    <a href="newedit/index.html">new</a>
-    <a href="index.html" class='desktop' target="_blank">nyflik</a> 
-</nav>
 <span style="float: left;" id="debug"></span>
 <form>        
     <input autofocus="autofocus" type="text" name="phrase" id="phrase"/>
@@ -36,19 +29,10 @@
     </tr></thead>
     <tbody></tbody><!--behövs, rader adderas hit mha javascript-->
 </table>
-<table class="wikiitems" id="tbl2id">
-    <caption>Ändrat sista 5 minutrarna</caption>
-        <thead><tr>
-            <th>scr</th><!--även länk till edit-->
-            <th>time</th>
-            <th>tags</th>
-            <th>description</th>
-        </tr></thead>
-        <tbody></tbody><!--behövs, rader adderas hit mha javascript-->
-    </table>
-    <script type="text/javascript">
+
+<script type="text/javascript">
 function clk_btn_search() {
-    window.location = 'index.html?phrase=' + encodeURIComponent(document.getElementById("phrase").value);
+    window.location = 'search.html?phrase=' + encodeURIComponent(document.getElementById("phrase").value);
 }
 jQuery(function($) {
     $(document).ready(function () {
@@ -59,14 +43,6 @@ jQuery(function($) {
             return;
         }
         
-//senaste skapade (som inte indexerats ännu)
-        var dt = new Date();
-        dt.setMinutes( dt.getMinutes() - 6 );
-        var filter = "$filter=Timestamp%20gt%20datetime'" + dt.toISOString() + "'";
-        getList(filter, "#debug", glbl8562.storage.tableInfo, getSignature(), function processJSON(items) {
-            buildTable("tbl2id", items);
-        });
-
 //sökresultat        
         var phrase =  getParameterByName('phrase');
         var body = {"top":20};
@@ -110,7 +86,7 @@ function buildTable(tableid, items) {
 //description                                    
         var newCell = newRow.insertCell(3);
         var a = document.createElement('a');
-        var linkText = document.createTextNode(items[i]["description"]);
+        var linkText = "link" + document.createTextNode(items[i]["description"]);
         a.appendChild(linkText);
         a.title = "view";
         a.href = "view/index.html?id=" + encodeURIComponent(items[i].RowKey);
@@ -120,6 +96,5 @@ function buildTable(tableid, items) {
 </script>
 
 <script type="text/javascript" src="./js/own.js"></script>
-<script type="text/javascript" src="./js/highlight.common.pack.js"></script>
 </body>
 </html>

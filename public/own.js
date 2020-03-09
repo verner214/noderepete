@@ -1,3 +1,10 @@
+var glbl8562 = { 
+    "search" : {
+        "url" : "https://gnaget.search.windows.net/indexes/repetesearchindex/docs?api-version=2019-05-06",
+        "publicApiKey": "5X1BH8B132H4I07165HE87F6I26D79F3",
+    }
+};
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
