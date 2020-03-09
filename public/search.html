@@ -70,7 +70,7 @@ function buildTable(tableid, items) {
         var linkText = document.createTextNode(Math.round(items[i]["@search.score"] * 100) / 100);
         a.appendChild(linkText);
         a.title = "edit";
-        a.href = "newedit/index.html?id=" + encodeURIComponent(items[i].RowKey);
+        a.href = "edit.html?RowKey=" + encodeURIComponent(items[i].RowKey) + "&PartitionKey=photos";
         newCell.appendChild(a);
 //time                                    
         var newCell  = newRow.insertCell(1);
@@ -79,18 +79,10 @@ function buildTable(tableid, items) {
             "-" + ("0" + d.getHours()).slice(-2) + ("0" + d.getMinutes()).slice(-2);
         var tagsText = document.createTextNode(datestring);
         newCell.appendChild(tagsText);
-//tags                                    
+//area1                                    
         var newCell  = newRow.insertCell(2);
-        var tagsText = document.createTextNode(items[i].tags);
+        var tagsText = document.createTextNode(items[i].area1);
         newCell.appendChild(tagsText);
-//description                                    
-        var newCell = newRow.insertCell(3);
-        var a = document.createElement('a');
-        var linkText = "link" + document.createTextNode(items[i]["description"]);
-        a.appendChild(linkText);
-        a.title = "view";
-        a.href = "view/index.html?id=" + encodeURIComponent(items[i].RowKey);
-        newCell.appendChild(a);
     }
 }
 </script>
