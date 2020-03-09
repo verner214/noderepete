@@ -1,6 +1,6 @@
 var glbl8562 = { 
     "search" : {
-        "url" : "https://gnaget.search.windows.net/indexes/repetesearchindex/docs?api-version=2019-05-06",
+        "url" : "https://gnaget.search.windows.net/indexes/repetesearchindex/docs/search?api-version=2019-05-06",
         "publicApiKey": "5X1BH8B132H4I07165HE87F6I26D79F3",
     }
 };
