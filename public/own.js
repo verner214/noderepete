@@ -5,6 +5,18 @@ var glbl8562 = {
     }
 };
 
+function login(password) {    
+    console.log('save cookie');
+    createCookie('gnaget', password, true);   
+}
+function logout() {
+    console.log('erase cookie');
+    deleteCookie('gnaget');   
+}
+function loginCookieExists() {
+    return getCookie("gnaget").length > 0;
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
