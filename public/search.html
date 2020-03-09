@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>lawa wiki</title>
+    <link rel="stylesheet" type="text/css" href="./own.css">
+    <script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/util.js"></script>
+    <script type="text/javascript" src="./js/azure.js"></script>
+</head>
+<body>
+<nav>
+    <a href="index.html">hem</a> 
+    <a href="fav/index.html">fav</a>
+    <a href="blobs/index.html">bank</a>
+    <a href="newedit/index.html">new</a>
+    <a href="index.html" class='desktop' target="_blank">nyflik</a> 
+</nav>
+<span style="float: left;" id="debug"></span>
+<form>        
+    <input autofocus="autofocus" type="text" name="phrase" id="phrase"/>
+    <button onclick="clk_btn_search()">sök</button>
+    <div id="divLogin" style="display: none">
+        <input id="pwd" type="password">
+        <button onclick="login(document.getElementById('pwd').value); return false;">login</button>
+    </div>
+</form>
+<table class="wikiitems" id="tbl1id">
+    <thead><tr>
+        <th>scr</th><!--även länk till edit-->
+        <th>time</th>
+        <th>tags</th>
+        <th>description</th>
+    </tr></thead>
+    <tbody></tbody><!--behövs, rader adderas hit mha javascript-->
+</table>
+<table class="wikiitems" id="tbl2id">
+    <caption>Ändrat sista 5 minutrarna</caption>
+        <thead><tr>
+            <th>scr</th><!--även länk till edit-->
+            <th>time</th>
+            <th>tags</th>
+            <th>description</th>
+        </tr></thead>
+        <tbody></tbody><!--behövs, rader adderas hit mha javascript-->
+    </table>
+    <script type="text/javascript">
+function clk_btn_search() {
+    window.location = 'index.html?phrase=' + encodeURIComponent(document.getElementById("phrase").value);
+}
+jQuery(function($) {
+    $(document).ready(function () {
+//visa loginform om cookie saknas
+        if (!loginCookieExists()) {
+            document.getElementById('divLogin').style.display = 'block';
+            console.log('no cookie. obs! chrome sparar inte cookie om man browsar från fil.');
+            return;
+        }
+        
+//senaste skapade (som inte indexerats ännu)
+        var dt = new Date();
+        dt.setMinutes( dt.getMinutes() - 6 );
+        var filter = "$filter=Timestamp%20gt%20datetime'" + dt.toISOString() + "'";
+        getList(filter, "#debug", glbl8562.storage.tableInfo, getSignature(), function processJSON(items) {
+            buildTable("tbl2id", items);
+        });
+
+//sökresultat        
+        var phrase =  getParameterByName('phrase');
+        var body = {"top":20};
+        if (phrase.length > 0) {
+            body.search = phrase;
+            document.getElementById("phrase").value = decodeURIComponent(phrase);
+        } 
+        else {//hämta senaste
+            body.search = "*";
+            body.orderby = "Timestamp desc";
+        }
+        search(body, "#debug", glbl8562.search.url, getSearchKey(), function processJSON(items) {
+            buildTable("tbl1id", items);
+        });
+    });
+});
+
+function buildTable(tableid, items) {
+    var tableRef = document.getElementById(tableid).getElementsByTagName('tbody')[0];
+    for (var i = 0; i < items.length; i++ ) {
+        var newRow   = tableRef.insertRow(tableRef.rows.length);
+//score                    
+        var newCell = newRow.insertCell(0);
+        var a = document.createElement('a');
+        var linkText = document.createTextNode(Math.round(items[i]["@search.score"] * 100) / 100);
+        a.appendChild(linkText);
+        a.title = "edit";
+        a.href = "newedit/index.html?id=" + encodeURIComponent(items[i].RowKey);
+        newCell.appendChild(a);
+//time                                    
+        var newCell  = newRow.insertCell(1);
+        var d = new Date(items[i].Timestamp);
+        var datestring = ("0" + d.getFullYear()).slice(-2) + ("0"+(d.getMonth()+1)).slice(-2) + ("0"+d.getDate()).slice(-2) + 
+            "-" + ("0" + d.getHours()).slice(-2) + ("0" + d.getMinutes()).slice(-2);
+        var tagsText = document.createTextNode(datestring);
+        newCell.appendChild(tagsText);
+//tags                                    
+        var newCell  = newRow.insertCell(2);
+        var tagsText = document.createTextNode(items[i].tags);
+        newCell.appendChild(tagsText);
+//description                                    
+        var newCell = newRow.insertCell(3);
+        var a = document.createElement('a');
+        var linkText = document.createTextNode(items[i]["description"]);
+        a.appendChild(linkText);
+        a.title = "view";
+        a.href = "view/index.html?id=" + encodeURIComponent(items[i].RowKey);
+        newCell.appendChild(a);
+    }
+}
+</script>
+
+<script type="text/javascript" src="./js/own.js"></script>
+<script type="text/javascript" src="./js/highlight.common.pack.js"></script>
+</body>
+</html>
